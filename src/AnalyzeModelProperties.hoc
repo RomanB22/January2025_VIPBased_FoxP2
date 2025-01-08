@@ -1,0 +1,5 @@
+load_file("nrngui.hoc")
+load_file("cells/vipcr_cell.hoc")
+
+objref foo
+foo = new FoxP2()

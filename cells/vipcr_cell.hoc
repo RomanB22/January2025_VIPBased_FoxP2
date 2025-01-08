@@ -1,0 +1,280 @@
+// Artificial cells no longer need a default section.
+//Network cell templates
+//   VIPCell
+// Simplified version (BPG 27-9-08)
+//  - geometry and channels from Santhakumar et al 2005
+//  - geometry modified to preserve VCUs different dendrites
+
+global_lambda_f = 1
+  func lambda_f() {return global_lambda_f}
+
+begintemplate FoxP2
+public is_art
+public init, topol, basic_shape, subsets, geom, biophys
+public pre_list, connect2target
+
+public soma
+public rad1 	// public radProx1, radMed1, radDist1, lmM1, lmt1
+public rad2 	// public radProx2, radMed2, radDist2, lmM2, lmt2
+public ori1 	// public oriProx1, oriMed1, oriDist1
+public ori2 	// public oriProx2, oriMed2, oriDist2
+public all
+
+objref pre_list
+
+proc init() {
+	topol()
+	subsets()
+	geom()
+	biophys()
+	geom_nseg()
+}
+
+create soma
+create rad1 	// create radProx1, radMed1, radDist1, lmM1, lmt1
+create rad2 	// create radProx2, radMed2, radDist2, lmM2, lmt2
+create ori1 	// create oriProx1, oriMed1, oriDist1
+create ori2 	// create oriProx2, oriMed2, oriDist2
+
+proc topol() { local i
+	connect rad1(0), soma(0) // connect radProx1(0), soma(0)
+	// connect radMed1(0),  radProx1(1)
+	// connect radDist1(0), radMed1(1)
+	// connect lmM1(0),     radDist1(1)
+	// connect lmt1(0),     lmM1(1)
+	connect rad2(0), soma(1) // connect radProx2(0), soma(1)
+	// connect radMed2(0),  radProx2(1)
+	// connect radDist2(0), radMed2(1)
+	// connect lmM2(0),     radDist2(1)
+	// connect lmt2(0),     lmM2(1)	
+	connect ori1(0), soma(0) // connect oriProx1(0), soma(0)
+	// connect oriMed1(0),  oriProx1(1)
+	// connect oriDist1(0), oriMed1(1)
+	connect ori2(0), soma(1) // connect oriProx2(0), soma(1)
+	// connect oriMed2(0),  oriProx2(1)
+	// connect oriDist2(0), oriMed2(1)
+	//basic_shape()
+}
+
+//proc basic_shape() {
+	//soma     { pt3dclear() pt3dadd(0, 0, 0, 10)      pt3dadd(15, 0, 0, 10)        }
+	//rad1     { pt3dclear() pt3dadd()  pt3dadd()	}
+	//rad2     { pt3dclear() pt3dadd()  pt3dadd()	}
+	//ori1     { pt3dclear() pt3dadd()  pt3dadd()	}
+	//ori2     { pt3dclear() pt3dadd()  pt3dadd() }
+	//radProx1 { pt3dclear() pt3dadd(0, 0, 0, 4)       pt3dadd(-7, 7.50, 0, 4)      }
+	//radMed1  { pt3dclear() pt3dadd(-14, 15, 0, 3)    pt3dadd(-21.5, 22.5, 0, 3)   }
+	//radDist1 { pt3dclear() pt3dadd(-29, 30, 0, 2)    pt3dadd(-36.5, 37.5, 0, 2)   }
+	//lmM1     { pt3dclear() pt3dadd(-44, 45, 0, 1.5)  pt3dadd(-51.5, 52.5, 0, 1.5) }
+	//lmt1     { pt3dclear() pt3dadd(-59, 60, 0, 1)    pt3dadd(-74, 75, 0, 1)       }
+	//radProx2 { pt3dclear() pt3dadd(15, 0, 0, 4)      pt3dadd(30, 15, 0, 4)        }
+	//radMed2  { pt3dclear() pt3dadd(45, 30, 0, 3)     pt3dadd(60, 45, 0, 3)        }
+	//radDist2 { pt3dclear() pt3dadd(75, 60, 0, 2)     pt3dadd(82.5, 67.5, 0, 2)    }
+	//lmM2     { pt3dclear() pt3dadd(90, 75, 0, 1.5)   pt3dadd(97.5, 82.5, 0, 1.5)  }
+	//lmt2     { pt3dclear() pt3dadd(105, 90, 0, 1)    pt3dadd(112.50, 97.5, 0, 1)  }	
+	//oriProx1 { pt3dclear() pt3dadd(0, 0, 0, 2)       pt3dadd(-14.5, -14.5, 0, 2)  }
+	//oriMed1  { pt3dclear() pt3dadd(-29, -29, 0, 1.5) pt3dadd(-44, -44, 0, 1.5)    }
+	//oriDist1 { pt3dclear() pt3dadd(-59, -59, 0, 1)   pt3dadd(-74, -74, 0, 1)      }
+	//oriProx2 { pt3dclear() pt3dadd(15, 0, 0, 2)      pt3dadd(30, -14.5, 0, 2)     }
+	//oriMed2  { pt3dclear() pt3dadd(45, -29, 0, 1.5)  pt3dadd(60, -44, 0, 1.5)     }
+	//oriDist2 { pt3dclear() pt3dadd(75, -59, 0, 1)    pt3dadd(90, -74, 0, 1)       }
+//}
+
+objref all
+proc subsets() { local i
+	objref all
+	all = new SectionList()
+	soma     all.append()
+	rad1     all.append()
+	rad2     all.append()
+	ori1     all.append()
+	ori2     all.append()
+	//radProx1 all.append()
+	//radMed1  all.append()
+	//radDist1 all.append()
+	//lmM1     all.append()
+	//lmt1     all.append()
+	//radProx2 all.append()
+	//radMed2  all.append()
+	//radDist2 all.append()
+	//lmM2     all.append()
+	//lmt2     all.append()	
+	//oriProx1 all.append()
+	//oriMed1  all.append()
+	//oriDist1 all.append()
+	//oriProx2 all.append()
+	//oriMed2  all.append()
+	//oriDist2 all.append()
+}
+
+proc geom() {
+	forsec all {  }
+	soma     {  L = 20   diam = 10  }
+	rad1     {  L = 300  diam = 3   }
+	rad2     {  L = 300  diam = 3   }
+	ori1     {  L = 150  diam = 1.5 }
+	ori2     {  L = 150  diam = 1.5 }
+	//radProx1 {  L = 50   diam = 4   }
+	//radMed1  {  L = 50   diam = 3   }
+	//radDist1 {  L = 100  diam = 2   }
+	//lmM1     {  L = 50   diam = 1.5 }
+	//lmt1     {  L = 50   diam = 1   }
+	//radProx2 {  L = 50   diam = 4   }
+	//radMed2  {  L = 50   diam = 3   }
+	//radDist2 {  L = 100  diam = 2   }
+	//lmM2     {  L = 50   diam = 1.5 }
+	//lmt2     {  L = 50   diam = 1   }	
+	//oriProx1 {  L = 50   diam = 2   }
+	//oriMed1  {  L = 50   diam = 1.5 }
+	//oriDist1 {  L = 50   diam = 1   }
+	//oriProx2 {  L = 50   diam = 2   }
+	//oriMed2  {  L = 50   diam = 1.5 }
+	//oriDist2 {  L = 50   diam = 1   }
+}
+
+external lambda_f
+proc geom_nseg() {
+  forsec all { nseg = 1 }//int((L/(0.1*lambda_f(100))+.9)/2)*2 + 1  }
+}
+
+proc biophys() {
+
+	soma_nafcr   = 0.007063650832394169
+	soma_kdrcr   = 0.015069214137235411
+	soma_Kslowcr = 0.006401436427663786
+	soma_iCcr    = 0.00010249482863430837
+	soma_cancr   = 0.009100552306156038
+	v_initcr     = -68.58434697800882
+	
+	soma {
+		insert pas
+		cm       = 1.8914506365455446           //microF/cm2
+		g_pas    = 4.7411099882163505e-06
+		e_pas    = v_initcr
+		Ra       = 116.63071421583007
+
+		insert Nafcr 
+		gnafbar_Nafcr= soma_nafcr
+
+		//insert hin // It is a detail to reproduce the return to baseline better
+		//gbar_hin = 5e-5
+
+		insert kdrcr
+		gkdrbar_kdrcr= soma_kdrcr
+
+		insert IKscr
+		gKsbar_IKscr= soma_Kslowcr
+
+		insert iCcr
+		gkcbar_iCcr= soma_iCcr
+
+		insert cancr
+		gcabar_cancr=soma_cancr
+
+		insert cadyn
+		// TO DO: cadyn_new, compile,insert, and verify the validation tests
+	}
+	
+	rad1 {
+		insert pas
+		cm       = 2.86004280843973           //microF/cm2
+		g_pas    =  9.145445600433023e-05
+		e_pas    = v_initcr
+		v_initcr = -69.94639485920993
+		Ra       = 109.04301401188185
+
+		insert Nafcr
+		gnafbar_Nafcr = 0.10673817803187446
+
+		insert kdrcr
+		gkdrbar_kdrcr = 0.013339593274649331
+	}
+
+	rad2 {
+		insert pas
+		cm       = 1.9340649628033502          //microF/cm2
+		g_pas    = 5.85743110096051e-05
+		e_pas    = v_initcr
+		v_initcr = -69.1936245704239
+		Ra       = 105.33290861536801
+
+		insert Nafcr
+		gnafbar_Nafcr = 0.13249929894497717
+
+		insert kdrcr
+		gkdrbar_kdrcr = 0.012867523661924226
+	}	
+
+	ori1 {
+		insert pas
+		cm       = 1.3956569521774433            //microF/cm2
+		g_pas    = 5.597266724018472e-06
+		e_pas    = v_initcr
+		v_initcr = -54.156581525079
+		Ra       = 101.31773619425941
+
+		insert Nafcr
+		gnafbar_Nafcr = 0.0329560444979248
+
+		insert kdrcr
+		gkdrbar_kdrcr = 0.00673548685801663
+	}			
+
+	ori2 {
+		insert pas
+		cm       = 1.7871266049926409            //microF/cm2
+		g_pas    = 1.2845832582194357e-05
+		e_pas    = v_initcr
+		v_initcr = -41.34129067194086
+		Ra       = 159.4874720208395
+
+		insert Nafcr
+		gnafbar_Nafcr = 0.018286391443029005
+
+		insert kdrcr
+		gkdrbar_kdrcr = 0.016523904347241908
+	}			
+
+	forsec all {
+		ko0_k_ion = 3.82   //mM
+	 	ki0_k_ion = 140    //mM
+		celsius   = 23
+	} 					
+
+}
+
+func is_art() { return 0 }
+
+objref zz
+zz = new Impedance()
+
+func rn() { local rn
+  init()  // make sure all changes to g, c, ri etc. have taken effect
+  soma zz.loc(0.5)  // sets origin for impedance calculations to middle of soma
+  zz.compute(0)  // DC input R
+  soma { rn = zz.input(0.5) }  // rn is input R at middle of the soma
+  return rn
+}
+
+print "DC input resistance of cell is ", rn(), "megohms"
+
+proc totalarea() { local sum
+  finitialize()
+  sum = 0
+  forall for (x,0) sum += area(x)
+  print "total surface area = ", sum, " um2"
+}
+
+totalarea() // returns total surface area
+
+func totalcm() { local tmp
+  tmp = 0
+  forall for (x,0) tmp += area(x)*cm(x)/10^8
+  return tmp*10^6
+}
+
+print "Total Capacitance of cell is ", totalcm(), "pF"
+
+endtemplate FoxP2
+
+
