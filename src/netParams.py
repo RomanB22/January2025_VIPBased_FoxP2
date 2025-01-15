@@ -3,14 +3,13 @@ from src.cfg import cfg
 import pickle
 import random
 import numpy as np
-import json
 
 cfg.update_cfg()
 ### params ###
 # Network parameters
 netParams = specs.NetParams()  # object of class NetParams to store the network parameters
-netParams.defaultThreshold = -10.0
-netParams.defineCellShapes = True       # sets 3d geometry aligned along the y-axis
+netParams.defaultThreshold = 0
+netParams.defineCellShapes = False       # sets 3d geometry aligned along the y-axis
 netParams.version = 1
 ###############################################################################
 ## Cell types
@@ -19,89 +18,173 @@ cellLabel = 'FoxP2'
 cellType = {'cellType': 'FoxP2', 'cellModel': 'HH_reduced'}
 
 cellRule = netParams.importCellParams(label='FoxP2', conds={'cellType': 'FoxP2', 'cellModel': 'HH_reduced'},
-                                      fileName='cells/vipcr_cell.hoc', cellName='FoxP2', importSynMechs=True)
+                                      fileName=cfg.hocFile, cellName='FoxP2', importSynMechs=True)
+
+tunedParamsOLD = {
+    "ori1": {
+        "Nafcr": {
+            "gnafbar": 0.02947620800082492
+        },
+        "Ra": 66.17717073966959,
+        "cm": 0.8606517206570653,
+        "kdrcr": {
+            "gkdrbar": 0.006481906573492726
+        },
+        "pas": {
+            "e": -33.49027694823483,
+            "g": 5.284515381280852e-06
+        }
+    },
+    "ori2": {
+        "Nafcr": {
+            "gnafbar": 0.018286391443029005
+        },
+        "Ra": 159.4874720208395,
+        "cm": 1.7871266049926409,
+        "kdrcr": {
+            "gkdrbar": 0.016523904347241908
+        },
+        "pas": {
+            "e": -41.34129067194086,
+            "g": 1.2845832582194357e-05
+        }
+    },
+    "rad1": {
+        "Nafcr": {
+            "gnafbar": 0.07030555623892656
+        },
+        "Ra": 146.97264222491765,
+        "cm": 3.4665873634587534,
+        "kdrcr": {
+            "gkdrbar": 0.018420121447432505
+        },
+        "pas": {
+            "e": -63.7255765480871,
+            "g": 0.0001323517375006819
+        }
+    },
+    "rad2": {
+        "Nafcr": {
+            "gnafbar": 0.10815212950869402
+        },
+        "Ra": 131.1200150750147,
+        "cm": 1.614263133932052,
+        "kdrcr": {
+            "gkdrbar": 0.011784330166693467
+        },
+        "pas": {
+            "e": -76.90504975769215,
+            "g": 5.373327212183193e-05
+        }
+    },
+    "soma": {
+        "IKscr": {
+            "gKsbar": 0.006783930646116449
+        },
+        "Nafcr": {
+            "gnafbar": 0.007947914708069291
+        },
+        "Ra": 148.34549887491144,
+        "cancr": {
+            "gcabar": 0.009161468313502903
+        },
+        "cm": 2.1218785384646157,
+        "iCcr": {
+            "gkcbar": 0.0001241181978117609
+        },
+        "kdrcr": {
+            "gkdrbar": 0.011182089978118509
+        },
+        "pas": {
+            "e": -74.47383900052466,
+            "g": 5.0861905608848625e-06
+        }
+    }
+}
 
 tunedParams = {
-            "ori1": {
-                "Nafcr": {
-                    "gnafbar": 0.02947620800082492
-                },
-                "Ra": 66.17717073966959,
-                "cm": 0.8606517206570653,
-                "kdrcr": {
-                    "gkdrbar": 0.006481906573492726
-                },
-                "pas": {
-                    "e": -33.49027694823483,
-                    "g": 5.284515381280852e-06
-                }
-            },
-            "ori2": {
-                "Nafcr": {
-                    "gnafbar": 0.018286391443029005
-                },
-                "Ra": 159.4874720208395,
-                "cm": 1.7871266049926409,
-                "kdrcr": {
-                    "gkdrbar": 0.016523904347241908
-                },
-                "pas": {
-                    "e": -41.34129067194086,
-                    "g": 1.2845832582194357e-05
-                }
-            },
-            "rad1": {
-                "Nafcr": {
-                    "gnafbar": 0.07030555623892656
-                },
-                "Ra": 146.97264222491765,
-                "cm": 3.4665873634587534,
-                "kdrcr": {
-                    "gkdrbar": 0.018420121447432505
-                },
-                "pas": {
-                    "e": -63.7255765480871,
-                    "g": 0.0001323517375006819
-                }
-            },
-            "rad2": {
-                "Nafcr": {
-                    "gnafbar": 0.10815212950869402
-                },
-                "Ra": 131.1200150750147,
-                "cm": 1.614263133932052,
-                "kdrcr": {
-                    "gkdrbar": 0.011784330166693467
-                },
-                "pas": {
-                    "e": -76.90504975769215,
-                    "g": 5.373327212183193e-05
-                }
-            },
-            "soma": {
-                "IKscr": {
-                    "gKsbar": 0.006783930646116449
-                },
-                "Nafcr": {
-                    "gnafbar": 0.007947914708069291
-                },
-                "Ra": 148.34549887491144,
-                "cancr": {
-                    "gcabar": 0.009161468313502903
-                },
-                "cm": 2.1218785384646157,
-                "iCcr": {
-                    "gkcbar": 0.0001241181978117609
-                },
-                "kdrcr": {
-                    "gkdrbar": 0.011182089978118509
-                },
-                "pas": {
-                    "e": -74.47383900052466,
-                    "g": 5.0861905608848625e-06
-                }
-            }
+    "ori1": {
+        "Nafcr": {
+            "gnafbar": 0.04082054365113535
+        },
+        "Ra": 112.71219260317795,
+        "cm": 1.7386428700050718,
+        "kdrcr": {
+            "gkdrbar": 0.00795423100785642
+        },
+        "pas": {
+            "e": -62.37229768558754,
+            "g": 4.798599296528991e-06
         }
+    },
+    "ori2": {
+        "Nafcr": {
+            "gnafbar": 0.025482710904591584
+        },
+        "Ra": 134.49107256418512,
+        "cm": 2.5234892981051105,
+        "kdrcr": {
+            "gkdrbar": 0.009008968739102362
+        },
+        "pas": {
+            "e": -43.89233403429573,
+            "g": 1.1620321558477796e-05
+        }
+    },
+    "rad1": {
+        "Nafcr": {
+            "gnafbar": 0.11257336429562881
+        },
+        "Ra": 108.58316821600586,
+        "cm": 2.7101073300878955,
+        "kdrcr": {
+            "gkdrbar": 0.01347170651215512
+        },
+        "pas": {
+            "e": -78.27355053698867,
+            "g": 9.954710083881613e-05
+        }
+    },
+    "rad2": {
+        "Nafcr": {
+            "gnafbar": 0.10999874642906309
+        },
+        "Ra": 102.72694229979082,
+        "cm": 1.8347836187385222,
+        "kdrcr": {
+            "gkdrbar": 0.010863187066404151
+        },
+        "pas": {
+            "e": -64.03154656423675,
+            "g": 6.790708995371536e-05
+        }
+    },
+    "soma": {
+        "IKscr": {
+            "gKsbar": 0.007200984292049982
+        },
+        "Nafcr": {
+            "gnafbar": 0.007048106046995259
+        },
+        "Ra": 83.22022299421958,
+        "cancr": {
+            "gcabar": 0.007336735493465247
+        },
+        "cm": 1.8665330834930678,
+        "iCcr": {
+            "gkcbar": 9.857697126917098e-05
+        },
+        "kdrcr": {
+            "gkdrbar": 0.011213668755840124
+        },
+        "pas": {
+            "e": -55.01023056726649,
+            "g": 4.96316748340829e-06
+        }
+    }
+}
+
+if cfg.hocFile=='cells/FoxP2_Jan2025_OLD.hoc': tunedParams=tunedParamsOLD
 
 cellRule['secs']['soma']['mechs']['Nafcr']['gnafbar'] = tunedParams['soma']['Nafcr']['gnafbar']
 cellRule['secs']['soma']['mechs']['kdrcr']['gkdrbar'] = tunedParams['soma']['kdrcr']['gkdrbar']
@@ -186,6 +269,7 @@ if cfg.addVecStim:
                                                                          numNeurons=cfg.NotChangingConn,
                                                                          numTrials=cfg.numTrials)
     # # We can save the sampled neurons if we want to. If running batch will overwrite
+    # import json
     # with open(cfg.saveFolder+cfg.simLabel+f"/Increasing_{cfg.Condition}_{cfg.IncreConn}_{cfg.DecreConn}", 'w') as file:
     #     json.dump(sampledNeuronsIncre, file, indent=4)
     # # We can save the sampled neurons if we want to

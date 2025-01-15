@@ -38,10 +38,10 @@ amps = amps[::steps]
 targetRates = targetRates[::steps]
 cfg.simLabel = 'FoxP2_fI_%s/FoxP2' % 'TotalNew'
 # For single step simulation uncomment following lines
-# stepNumber = 600 # each step corresponds to 10 pA increase
+# stepNumber = 2 # each step corresponds to 10 pA increase
 # amps = [10 / 1000. * stepNumber]
 # targetRates = [0]
-# cfg.simLabel = 'FoxP2_fI_%s/FoxP2' % (str(amps)+'_3')
+# cfg.simLabel = 'FoxP2_fI_%s/FoxP2' % str(amps)
 
 times = list(np.arange(32, timeBetweenCurrentSteps * len(amps), timeBetweenCurrentSteps))  # start times
 
@@ -51,7 +51,7 @@ times = list(np.arange(32, timeBetweenCurrentSteps * len(amps), timeBetweenCurre
 cfg.duration = timeBetweenCurrentSteps * len(amps)
 cfg.dt = 0.1
 cfg.seeds = {'conn': 4321, 'stim': 1234, 'loc': 4321}
-cfg.hParams = {'celsius': 34, 'v_init': -80}
+cfg.hParams = {'celsius': 23, 'v_init': -80}
 cfg.verbose = False
 cfg.createNEURONObj = True
 cfg.createPyStruct = True
@@ -63,7 +63,8 @@ cfg.includeParamsLabel = True
 cfg.printPopAvgRates = True
 cfg.checkErrors = True
 cfg.connRandomSecFromList = False
-
+cfg.depolBlockModel = False
+cfg.hocFile = 'cells/FoxP2_Jan2025.hoc' # cells/FoxP2_Jan2025.hoc
 #------------------------------------------------------------------------------
 # Recording
 #------------------------------------------------------------------------------

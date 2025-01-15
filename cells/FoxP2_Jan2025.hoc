@@ -138,20 +138,20 @@ proc geom_nseg() {
 }
 
 proc biophys() {
-
-	soma_nafcr   = 0.007063650832394169
-	soma_kdrcr   = 0.015069214137235411
-	soma_Kslowcr = 0.006401436427663786
-	soma_iCcr    = 0.00010249482863430837
-	soma_cancr   = 0.009100552306156038
-	v_initcr     = -68.58434697800882
-	
+    valf = -13 // -13 (old), -29 (depol block)
 	soma {
+		soma_nafcr   = 0.007048106046995259
+	    soma_kdrcr   = 0.011213668755840124
+	    soma_Kslowcr = 0.007200984292049982
+	    soma_iCcr    = 9.857697126917098e-05
+	    soma_cancr   = 0.007336735493465247
+	    v_initcr     = -77
+
 		insert pas
-		cm       = 1.8914506365455446           //microF/cm2
-		g_pas    = 4.7411099882163505e-06
+		cm       = 1.3           //microF/cm2
+		g_pas    = 2e-4
 		e_pas    = v_initcr
-		Ra       = 116.63071421583007
+		Ra       = 150
 
 		insert Nafcr 
 		gnafbar_Nafcr= soma_nafcr
@@ -161,6 +161,7 @@ proc biophys() {
 
 		insert kdrcr
 		gkdrbar_kdrcr= soma_kdrcr
+		valf_kdrcr=valf
 
 		insert IKscr
 		gKsbar_IKscr= soma_Kslowcr
@@ -174,66 +175,70 @@ proc biophys() {
 		insert cadyn
 		// TO DO: cadyn_new, compile,insert, and verify the validation tests
 	}
-	
+
 	rad1 {
 		insert pas
-		cm       = 2.86004280843973           //microF/cm2
-		g_pas    =  9.145445600433023e-05
+		cm       = 1           //microF/cm2
+		g_pas    = 1e-4
+		v_initcr = -77
 		e_pas    = v_initcr
-		v_initcr = -69.94639485920993
-		Ra       = 109.04301401188185
+		Ra       = 150
 
 		insert Nafcr
-		gnafbar_Nafcr = 0.10673817803187446
+		gnafbar_Nafcr = 0.11257336429562881
 
 		insert kdrcr
-		gkdrbar_kdrcr = 0.013339593274649331
+		gkdrbar_kdrcr = 0.01347170651215512
+		valf_kdrcr=valf
 	}
 
 	rad2 {
 		insert pas
-		cm       = 1.9340649628033502          //microF/cm2
-		g_pas    = 5.85743110096051e-05
+		cm       = 1          //microF/cm2
+		g_pas    = 1e-4
+		v_initcr = -77
 		e_pas    = v_initcr
-		v_initcr = -69.1936245704239
-		Ra       = 105.33290861536801
+		Ra       = 150
 
 		insert Nafcr
-		gnafbar_Nafcr = 0.13249929894497717
+		gnafbar_Nafcr = 0.10999874642906309
 
 		insert kdrcr
-		gkdrbar_kdrcr = 0.012867523661924226
+		gkdrbar_kdrcr = 0.010863187066404151
+		valf_kdrcr=valf
 	}	
 
 	ori1 {
 		insert pas
-		cm       = 1.3956569521774433            //microF/cm2
-		g_pas    = 5.597266724018472e-06
+		cm       = 1            //microF/cm2
+		g_pas    = 1e-4
+		v_initcr = -77
 		e_pas    = v_initcr
-		v_initcr = -54.156581525079
-		Ra       = 101.31773619425941
+		Ra       = 150
 
 		insert Nafcr
-		gnafbar_Nafcr = 0.0329560444979248
+		gnafbar_Nafcr = 0.04082054365113535
 
 		insert kdrcr
-		gkdrbar_kdrcr = 0.00673548685801663
-	}			
+		gkdrbar_kdrcr = 0.00795423100785642
+		valf_kdrcr=valf
+	}
 
 	ori2 {
 		insert pas
-		cm       = 1.7871266049926409            //microF/cm2
-		g_pas    = 1.2845832582194357e-05
+		cm       = 1            //microF/cm2
+		g_pas    = 1e-4
+		v_initcr = -77
 		e_pas    = v_initcr
-		v_initcr = -41.34129067194086
-		Ra       = 159.4874720208395
+		Ra       = 150
 
 		insert Nafcr
-		gnafbar_Nafcr = 0.018286391443029005
+		gnafbar_Nafcr = 0.025482710904591584
 
 		insert kdrcr
-		gkdrbar_kdrcr = 0.016523904347241908
-	}			
+		gkdrbar_kdrcr = 0.009008968739102362
+		valf_kdrcr=valf
+	}
 
 	forsec all {
 		ko0_k_ion = 3.82   //mM
@@ -274,6 +279,7 @@ func totalcm() { local tmp
 }
 
 print "Total Capacitance of cell is ", totalcm(), "pF"
+
 
 endtemplate FoxP2
 

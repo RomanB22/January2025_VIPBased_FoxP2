@@ -1,5 +1,5 @@
 load_file("nrngui.hoc")
-load_file("cells/vipcr_cell.hoc")
+load_file("cells/FoxP2_Jan2025.hoc")
 
 objref foo
 foo = new FoxP2()

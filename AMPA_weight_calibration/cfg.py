@@ -22,7 +22,7 @@ cfg = specs.SimConfig()
 cfg.duration = 2000
 cfg.dt = 0.1
 cfg.seeds = {'conn': 4321, 'stim': 1234, 'loc': 4321}
-cfg.hParams = {'celsius': 34, 'v_init': -70}
+cfg.hParams = {'celsius': 23, 'v_init': -80}
 cfg.verbose = False
 cfg.createNEURONObj = True
 cfg.createPyStruct = True
@@ -34,7 +34,7 @@ cfg.includeParamsLabel = True
 cfg.printPopAvgRates = True
 cfg.checkErrors = True
 cfg.connRandomSecFromList = False
-
+cfg.hocFile = 'cells/FoxP2_Jan2025_OLD.hoc'
 #------------------------------------------------------------------------------
 # Recording
 #------------------------------------------------------------------------------
@@ -46,7 +46,7 @@ cfg.recordLFP = False #[[10, y, 90] for y in range(450, 1250, 100)]
 cfg.saveLFPCells = False
 cfg.ESynMech = 'AMPA'
 cfg.delay = 2
-cfg.NetStimWeight = 0.008 # 0.004 for 200 pA of EPSC
+cfg.NetStimWeight = 0.004 # 0.004 for 200 pA of EPSC
 cfg.NetStimDelay = cfg.delay
 cfg.synsPerConn = 1
 # Membrane time constant of model is actually larger than experiment, thus for longer synapses,

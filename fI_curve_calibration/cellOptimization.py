@@ -16,13 +16,12 @@ import os
 # ---------------------------------------------------------------------------------------------- #
 # -----                              f-I curve calibration                                ------ #
 # ---------------------------------------------------------------------------------------------- #
-def evolCellFoxP2(algo='optuna', min=0.8, max=1.2):
+def evolCellFoxP2(algo='optuna', min=0.1, max=2, depolBlockModel=True):
     # parameters space to explore
     # min and max are the percentage variation for the limits of the search space.
     # TunedParams are based on previous optimization using 'evol' algorithm
     params = specs.ODict()
-
-    tunedParams = {
+    tunedParamsNoDepol = {
         "ori1": {
             "Nafcr": {
                 "gnafbar": 0.0329560444979248
@@ -103,27 +102,116 @@ def evolCellFoxP2(algo='optuna', min=0.8, max=1.2):
             }
         }
     }
+    tunedParamsDepol = {
+        "ori1": {
+            "Nafcr": {
+                "gnafbar": 0.04082054365113535
+            },
+            "Ra": 112.71219260317795,
+            "cm": 1.7386428700050718,
+            "kdrcr": {
+                "gkdrbar": 0.00795423100785642
+            },
+            "pas": {
+                "e": -62.37229768558754,
+                "g": 4.798599296528991e-06
+            }
+        },
+        "ori2": {
+            "Nafcr": {
+                "gnafbar": 0.025482710904591584
+            },
+            "Ra": 134.49107256418512,
+            "cm": 2.5234892981051105,
+            "kdrcr": {
+                "gkdrbar": 0.009008968739102362
+            },
+            "pas": {
+                "e": -43.89233403429573,
+                "g": 1.1620321558477796e-05
+            }
+        },
+        "rad1": {
+            "Nafcr": {
+                "gnafbar": 0.11257336429562881
+            },
+            "Ra": 108.58316821600586,
+            "cm": 2.7101073300878955,
+            "kdrcr": {
+                "gkdrbar": 0.01347170651215512
+            },
+            "pas": {
+                "e": -78.27355053698867,
+                "g": 9.954710083881613e-05
+            }
+        },
+        "rad2": {
+            "Nafcr": {
+                "gnafbar": 0.10999874642906309
+            },
+            "Ra": 102.72694229979082,
+            "cm": 1.8347836187385222,
+            "kdrcr": {
+                "gkdrbar": 0.010863187066404151
+            },
+            "pas": {
+                "e": -64.03154656423675,
+                "g": 6.790708995371536e-05
+            }
+        },
+        "soma": {
+            "IKscr": {
+                "gKsbar": 0.007200984292049982
+            },
+            "Nafcr": {
+                "gnafbar": 0.007048106046995259
+            },
+            "Ra": 83.22022299421958,
+            "cancr": {
+                "gcabar": 0.007336735493465247
+            },
+            "cm": 1.8665330834930678,
+            "iCcr": {
+                "gkcbar": 9.857697126917098e-05
+            },
+            "kdrcr": {
+                "gkdrbar": 0.011213668755840124
+            },
+            "pas": {
+                "e": -55.01023056726649,
+                "g": 4.96316748340829e-06
+            }
+        }
+    }
+    if depolBlockModel:
+        tunedParams = tunedParamsDepol
+    else:
+        tunedParams = tunedParamsNoDepol
+
+    [tunedParams['soma']['Nafcr']['gnafbar']*min, tunedParams['soma']['Nafcr']['gnafbar']*max]
+
     params[('tune', 'soma', 'Nafcr', 'gnafbar')] = [tunedParams['soma']['Nafcr']['gnafbar']*min, tunedParams['soma']['Nafcr']['gnafbar']*max]
     params[('tune', 'soma', 'kdrcr', 'gkdrbar')] = [tunedParams['soma']['kdrcr']['gkdrbar']*min, tunedParams['soma']['kdrcr']['gkdrbar']*max]
     params[('tune', 'soma', 'IKscr', 'gKsbar')] = [tunedParams['soma']['IKscr']['gKsbar']*min, tunedParams['soma']['IKscr']['gKsbar']*max]
     params[('tune', 'soma', 'iCcr', 'gkcbar')] = [tunedParams['soma']['iCcr']['gkcbar']*min, tunedParams['soma']['iCcr']['gkcbar']*max]
     params[('tune', 'soma', 'cancr', 'gcabar')] = [tunedParams['soma']['cancr']['gcabar']*min, tunedParams['soma']['cancr']['gcabar']*max]
-    params[('tune', 'soma', 'pas', 'e')] = [tunedParams['soma']['pas']['e']*max, tunedParams['soma']['pas']['e']*min]
-    params[('tune', 'soma', 'cm')] = [tunedParams['soma']['cm']*min, tunedParams['soma']['cm']*max]
-    params[('tune', 'soma', 'Ra')] = [tunedParams['soma']['Ra']*min, tunedParams['soma']['Ra']*max]
-    params[('tune', 'soma', 'pas', 'g')] = [tunedParams['soma']['pas']['g']*min, tunedParams['soma']['pas']['g']*max]
+    # params[('tune', 'soma', 'pas', 'e')] = [-95, -70]
+    # params[('tune', 'soma', 'cm')] = [1.3*min, 1.3*max]
+    params[('tune', 'soma', 'Ra')] = [100, 200]
+    # params[('tune', 'soma', 'pas', 'g')] = [2e-4*min, 2e-4*max]
 
     for sec in ['rad1', 'rad2', 'ori1', 'ori2']:
         params[('tune', sec, 'Nafcr', 'gnafbar')] = [tunedParams[sec]['Nafcr']['gnafbar']*min, tunedParams[sec]['Nafcr']['gnafbar']*max]
         params[('tune', sec, 'kdrcr', 'gkdrbar')] = [tunedParams[sec]['kdrcr']['gkdrbar']*min, tunedParams[sec]['kdrcr']['gkdrbar']*max]
-        params[('tune', sec, 'pas', 'e')] = [tunedParams[sec]['pas']['e']*max, tunedParams[sec]['pas']['e']*min]
-        params[('tune', sec, 'cm')] = [tunedParams[sec]['cm']*min, tunedParams[sec]['cm']*max]
-        params[('tune', sec, 'Ra')] = [tunedParams[sec]['Ra']*min, tunedParams[sec]['Ra']*max]
-        params[('tune', sec, 'pas', 'g')] = [tunedParams[sec]['pas']['g']*min, tunedParams[sec]['pas']['g']*max]
+        # params[('tune', sec, 'pas', 'e')] = [-95, -70]
+        # params[('tune', sec, 'cm')] = [1*min, 1*max]
+        params[('tune', sec, 'Ra')] = [100, 200]
+        # params[('tune', sec, 'pas', 'g')] = [1e-4*min, 1e-4*max]
 
     # initial cfg set up
     initCfg = {} # specs.ODict()
     initCfg['saveDataInclude'] = ['simData']
+    initCfg['depolBlockModel'] = depolBlockModel
     # initCfg[('analysis', 'plotTraces')] = {}
 
     for k, v in params.items():
@@ -157,7 +245,7 @@ def evolCellFoxP2(algo='optuna', min=0.8, max=1.2):
         diffRates = [abs(x-t) for x,t in zip(simData['fI'], targetRates)]
         fitness = np.mean(diffRates)
         # To avoid very negative membrane resting potentials
-        if np.min(simData['V_soma']['cell_0'])<-90: fitness = kwargs['maxFitness']
+        if np.min(simData['V_soma']['cell_0'])<-91: fitness = kwargs['maxFitness']
         # TODO: Add extra high amplitude to explore depolarization blockade
 
         print(' Candidate rates: ', simData['fI'])
@@ -239,8 +327,10 @@ def setRunCfg(b, type='mpi_bulletin'):
 
 if __name__ == '__main__':
     # Single cell calibration
-    b = evolCellFoxP2(algo='optuna') # Choose optimization algorithm: 'evol', 'optuna'
-    b.batchLabel = 'evolfI_Jan2025'
+    algo='evol'
+    depolBlockModel = False
+    b = evolCellFoxP2(algo=algo, depolBlockModel=False) # Choose optimization algorithm: 'evol', 'optuna'
+    b.batchLabel = '%sfI_Jan2025_Depol%s' % (algo, depolBlockModel)
     b.saveFolder = 'data/' + b.batchLabel
     setRunCfg(b, 'mpi_bulletin')
     b.run()  # run batch

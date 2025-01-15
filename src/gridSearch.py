@@ -1,25 +1,19 @@
 from netpyne.batchtools.search import search
 
-NoiseMultiplier = 1 # 1e-10 (or whatever small number larger than zero) or 1 to use the In-vivo background noise
-AMPA_weight = 0.004 # 0.004 for 200 pA of EPSC driven by a NetStim in soma, 0.008 for 400 pA of EPSC
-# Since Rin in the model is twice as large than experiment, we use half of the weights,
-# to compensate that effect on the membrane potential
-
-params = {'IClamp1.amp': [-0.2, 0, 0.2],
-          'NetStimRatePre': [NoiseMultiplier*6.7],#[0, 6.7]
-          'NetStimRatePost': [NoiseMultiplier*6.7*0.87], #[0, 6.7*0.87], # 6.7+3*4.7=20.8 Hz
+params = {'IAmp': [0],
+          'NoiseMultiplier': [1],
           'NetStimNoise': [0.71],
-          'NetStimWeight': [AMPA_weight],
-          'AMPANMDAWeightsIncre': [AMPA_weight],
-          'AMPANMDAWeightsDecre': [AMPA_weight],
-          'AMPANMDAWeightsNotChanging': [AMPA_weight],
-          'delay': [2], # ?
-          'IncreConn': [int(18*0.5), 18, 18*2, 18*3, 18*4, 18*5], # 25% Incre - 65% Decre
-          'DecreConn': [int(51*0.5), 51, 51*2, 51*3, 51*4, 51*5], #
-          'NotChangingConn': [4], # ? 5-10%
-          'synsPerConn': [1, 3],#[1, 3], # ?
+          'NetStimRateProportion': [0.87], #[0, 0.87, 1] # Percentage of background noise after movement with respect to preparation
+          'AMPA_weight': [0.001, 0.002], # Same for all connections. ? Unknown variable
+          'delay': [2], # [1, 2, 3, 4] ? Unknown variable
+          'IncreConn': [int(18*0.5), 18, int(18*1.5), 18*2, int(18*2.5), 18*3, int(18*3.5), 18*4, int(18*4.5), 18*5], # 25% Incre - 65% Decre
+          'DecreConn': [int(51*0.5), 51, int(51*1.5), 51*2, int(51*2.5), 51*3, int(51*3.5), 51*4, int(51*4.5), 51*5], #
+          'NotChangingConn': [4], # ? Unknown variable. Fixed to 5-10%
+          'synsPerConn': [1], # ? Unknown variable
           'Condition': ['InVivo_Go', 'OnlyIncre_Go', 'MirrorDecre_Go']
           }
+# If you don't want to save the figures for all the gridsearch, uncomment following line
+# params['analysis'] = [{}]
 
 # use batch_shell_config if running directly on the machine
 shell_config = {'command': 'nrniv -python src/init.py',}
@@ -38,11 +32,9 @@ search(job_type = 'sh', # or 'sh'
        comm_type = 'socket',
        label = 'grid',
        params = params,
-       output_path = './data/results_%s_%s' % (AMPA_weight, int(NoiseMultiplier)),
-       checkpoint_path = './data/ray_%s_%s' % (AMPA_weight, int(NoiseMultiplier)),
+       output_path = './data/gridsearch',
+       checkpoint_path = './data/ray',
        run_config = run_config,
        num_samples = 1,
        algorithm = "variant_generator",
-       metric = 'loss',
-       mode = 'min',
        max_concurrent = 10)

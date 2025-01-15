@@ -3,7 +3,7 @@
 NEURON {
 	SUFFIX kdrcr
 	USEION k READ ki, ko WRITE ik
-	RANGE gkdrbar, ik, gk
+	RANGE gkdrbar, ik, gk, valf
 	
 }
 
@@ -18,8 +18,7 @@ PARAMETER {
 	v (mV)
 	dt (ms)
 	gkdrbar= 0.0338 (mho/cm2) <0,1e9>
-	
-	
+	valf = -29 (mV) : -13 (old), -29 (depol block)
 }
 
 STATE {
@@ -58,20 +57,19 @@ DERIVATIVE states {
 
 UNITSOFF
 
-FUNCTION alf(v){ LOCAL va 
-	
-	   va=v-13
+FUNCTION alf(v){ LOCAL va
+	va=v+valf
 	if (fabs(va)<1e-04){
 	   va=va+0.0001
 		alf= (-0.018*va)/(-1+exp(-(va/25)))
 	} else {
-	  	alf = (-0.018*(v-13))/(-1+exp(-((v-13)/25)))
+	  	alf = (-0.018*va)/(-1+exp(-(va/25)))
 	}
 }
 
 
 FUNCTION bet(v) { LOCAL vb 
-	
+
 	  vb=v-23
 	if (fabs(vb)<1e-04){
 	  vb=vb+0.0001
@@ -88,7 +86,7 @@ FUNCTION bet(v) { LOCAL vb
 
 PROCEDURE rate(v (mV)) {LOCAL q10, sum, aa, ab
 	
-	aa=alf(v) ab=bet(v) 
+	aa=alf(v) ab=bet(v)
 	
 	sum = aa+ab
 	inf = aa/sum

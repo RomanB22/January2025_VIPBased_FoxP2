@@ -4,7 +4,7 @@ from netpyne.batchtools import specs
 cfg = specs.SimConfig()
 
 cfg.preStim = 1800
-cfg.postStim = 2000
+cfg.postStim = 1800
 cfg.duration = cfg.preStim + cfg.postStim
 cfg.GoNoGo = 'Go'
 cfg.Condition = 'MirrorDecre'+'_'+cfg.GoNoGo
@@ -27,7 +27,7 @@ cfg.synsPerConn = 1
 cfg.dt = 0.1
 cfg.v_init = -80
 cfg.seeds = {'conn': 4321, 'stim': 1234, 'loc': 4321}
-cfg.hParams = {'celsius': 37, 'v_init': cfg.v_init}
+cfg.hParams = {'celsius': 34, 'v_init': cfg.v_init}
 cfg.verbose = 0
 cfg.createNEURONObj = True
 cfg.createPyStruct = True
@@ -39,7 +39,7 @@ cfg.includeParamsLabel = True
 cfg.printPopAvgRates = True
 cfg.checkErrors = True
 cfg.connRandomSecFromList = False
-
+cfg.hocFile = 'cells/FoxP2_Jan2025_OLD.hoc'
 #------------------------------------------------------------------------------
 # Recording
 #------------------------------------------------------------------------------
@@ -58,7 +58,7 @@ cfg.saveLFPCells = False
 cfg.saveFolder = 'data/'
 cfg.savePickle = False
 cfg.saveJson = True
-cfg.saveDataInclude = ['simData', 'simConfig']#['simData', 'simConfig', 'netParams', 'net']
+cfg.saveDataInclude = ['simData', 'simConfig', 'net']
 cfg.backupCfgFile = None #['cfg.py', 'backupcfg/']
 cfg.gatherOnlySimData = False
 cfg.saveCellSecs = False
@@ -70,9 +70,13 @@ cfg.IAmp = 0  # nA
 cfg.IClamp1 = {'pop': 'FoxP2', 'sec': 'soma', 'loc': 0.5, 'dur': cfg.duration, 'amp': cfg.IAmp, 'start': 0}
 
 cfg.addVecStim = True
-cfg.AMPANMDAWeightsIncre = 0.004 # 0.004 for 200 pA of EPSC, 0.008 for 400 pA of EPSC
-cfg.AMPANMDAWeightsDecre = 0.004
-cfg.AMPANMDAWeightsNotChanging = 0.004
+cfg.AMPAWeight = 0.002 # 0.004 for 200 pA of EPSC, 0.008 for 400 pA of EPSC
+cfg.AMPANMDAWeightsIncre = cfg.AMPAWeight
+cfg.AMPANMDAWeightsDecre = cfg.AMPAWeight
+cfg.AMPANMDAWeightsNotChanging = cfg.AMPAWeight
+ # 0.004 for 200 pA of EPSC driven by a NetStim in soma, 0.008 for 400 pA of EPSC
+# Since Rin in the model is twice as large than experiment, we use half of the weights,
+# to compensate that effect on the membrane potential
 
 cfg.simLabel = 'FoxP2_VecStim_%s_%s_%s/FoxP2' % (cfg.Condition, cfg.IncreConn, cfg.DecreConn)
 
@@ -81,16 +85,18 @@ cfg.delay = 2
 cfg.ESynMech = 'AMPA'
 
 cfg.addNetStim = True
-cfg.NetStimRatePre = 6.7  # From firing rate in Hz to Interval the conversion is Interval[ms] = 1000/Freq[Hz]
-cfg.NetStimRatePost = 6.7*0.87  # From firing rate in Hz to Interval the conversion is Interval[ms] = 1000/Freq[Hz]
+cfg.NoiseMultiplier = 1 # 1e-10 (or whatever small number larger than zero) or 1 to use the In-vivo background noise
+cfg.NetStimRatePre = max(cfg.NoiseMultiplier, 1e-10)*6.7  # From firing rate in Hz to Interval the conversion is Interval[ms] = 1000/Freq[Hz]
+cfg.NetStimRateProportion = 0.87
+cfg.NetStimRatePost = max(cfg.NoiseMultiplier, 1e-10)*6.7*cfg.NetStimRateProportion  # From firing rate in Hz to Interval the conversion is Interval[ms] = 1000/Freq[Hz]
 cfg.NetStimRateDesv = 4.7
 cfg.NetStimNoise = 0.71  # Fraction of noise in NetStim (0 = deterministic; 1 = completely random). 1 means that there is no refractory period between NetStims
-cfg.NetStimWeight = 0.004
+cfg.NetStimWeight = cfg.AMPAWeight
 cfg.NetStimNumber = 1e10  # Max number of spikes generated (default = 1e12)
 cfg.NetStimDelay = cfg.delay
 
 #####################
-transitory = 400
+transitory = 800
 timeRange = [transitory, cfg.duration-100]
 cfg.format = 'png'
 

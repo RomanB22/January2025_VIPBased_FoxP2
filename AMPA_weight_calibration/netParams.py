@@ -28,7 +28,7 @@ except:
 #------------------------------------------------------------------------------
 # General connectivity parameters
 #------------------------------------------------------------------------------
-netParams.defaultThreshold = -30.0 # spike threshold, 10 mV is NetCon default, lower it for all cells
+netParams.defaultThreshold = 0.0 # spike threshold, 10 mV is NetCon default, lower it for all cells
 
 #------------------------------------------------------------------------------
 # Cell parameters
@@ -42,7 +42,7 @@ netParams.defaultThreshold = -30.0 # spike threshold, 10 mV is NetCon default, l
 ## PV cell params (3-comp)
 #######
 # vip-ngf
-tunedParams = {
+tunedParamsOLD = {
     "ori1": {
         "Nafcr": {
             "gnafbar": 0.0329560444979248
@@ -124,8 +124,92 @@ tunedParams = {
     }
 }
 
+tunedParams = {
+    "ori1": {
+        "Nafcr": {
+            "gnafbar": 0.04082054365113535
+        },
+        "Ra": 112.71219260317795,
+        "cm": 1.7386428700050718,
+        "kdrcr": {
+            "gkdrbar": 0.00795423100785642
+        },
+        "pas": {
+            "e": -62.37229768558754,
+            "g": 4.798599296528991e-06
+        }
+    },
+    "ori2": {
+        "Nafcr": {
+            "gnafbar": 0.025482710904591584
+        },
+        "Ra": 134.49107256418512,
+        "cm": 2.5234892981051105,
+        "kdrcr": {
+            "gkdrbar": 0.009008968739102362
+        },
+        "pas": {
+            "e": -43.89233403429573,
+            "g": 1.1620321558477796e-05
+        }
+    },
+    "rad1": {
+        "Nafcr": {
+            "gnafbar": 0.11257336429562881
+        },
+        "Ra": 108.58316821600586,
+        "cm": 2.7101073300878955,
+        "kdrcr": {
+            "gkdrbar": 0.01347170651215512
+        },
+        "pas": {
+            "e": -78.27355053698867,
+            "g": 9.954710083881613e-05
+        }
+    },
+    "rad2": {
+        "Nafcr": {
+            "gnafbar": 0.10999874642906309
+        },
+        "Ra": 102.72694229979082,
+        "cm": 1.8347836187385222,
+        "kdrcr": {
+            "gkdrbar": 0.010863187066404151
+        },
+        "pas": {
+            "e": -64.03154656423675,
+            "g": 6.790708995371536e-05
+        }
+    },
+    "soma": {
+        "IKscr": {
+            "gKsbar": 0.007200984292049982
+        },
+        "Nafcr": {
+            "gnafbar": 0.007048106046995259
+        },
+        "Ra": 83.22022299421958,
+        "cancr": {
+            "gcabar": 0.007336735493465247
+        },
+        "cm": 1.8665330834930678,
+        "iCcr": {
+            "gkcbar": 9.857697126917098e-05
+        },
+        "kdrcr": {
+            "gkdrbar": 0.011213668755840124
+        },
+        "pas": {
+            "e": -55.01023056726649,
+            "g": 4.96316748340829e-06
+        }
+    }
+}
+
+if cfg.hocFile=='cells/FoxP2_Jan2025_OLD.hoc': tunedParams=tunedParamsOLD
+
 cellRule = netParams.importCellParams(label='FoxP2', conds={'cellType': 'FoxP2', 'cellModel': 'HH_reduced'},
-                                      fileName='cells/vipcr_cell.hoc', cellName='FoxP2', importSynMechs = True)
+                                      fileName=cfg.hocFile, cellName='FoxP2', importSynMechs = True)
 
 # We blocked sodium to avoid spikes
 cellRule['secs']['soma']['mechs']['Nafcr']['gnafbar'] = tunedParams['soma']['Nafcr']['gnafbar']*0
