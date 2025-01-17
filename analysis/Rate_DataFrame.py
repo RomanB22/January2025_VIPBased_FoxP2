@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 import pickle
 import auxFuncs
 import pandas as pd
-import time as TIME
 
-with open("results/SimSpikes.pkl", 'rb') as f:
+DepolBlock=True
+with open("results/SimSpikesDepol%s.pkl" % DepolBlock, 'rb') as f:
     dataDict = pickle.load(f)
 
 # Each entry in the dictionary has the following info: Condition, NumIncreasing, NumDecreasing, NumNotRelated,
@@ -78,4 +78,4 @@ for k, v in dataDict.items():
         row = pd.DataFrame(dict, columns=columns)
         df = pd.concat([df, row], ignore_index=True)
 
-df.to_pickle("results/NeuronalArithmetic.pkl")
+df.to_pickle("results/NeuronalArithmeticDepol%s.pkl" % DepolBlock)

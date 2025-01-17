@@ -20,6 +20,7 @@ with open('cells/AverageProperties.pkl', 'rb') as f:
 
 timeBetweenCurrentSteps = 1250
 
+transitoryTime = 32
 steps = 1
 end=15
 dur = 432
@@ -34,16 +35,19 @@ targetRates = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2.
                43.67816092, 43.67816092, 45.97701149, 45.97701149, 45.97701149, 48.27586207, 48.27586207,
                50.57471264, 50.57471264, 50.57471264, 52.87356322, 52.87356322, 52.87356322, 52.87356322]
 
+cfg.depolBlockModel = True
+
 amps = amps[::steps]
 targetRates = targetRates[::steps]
-cfg.simLabel = 'FoxP2_fI_%s/FoxP2' % 'TotalNew'
+cfg.simLabel = 'FoxP2_fI_Depol%s/FoxP2' % cfg.depolBlockModel
 # For single step simulation uncomment following lines
-# stepNumber = 2 # each step corresponds to 10 pA increase
-# amps = [10 / 1000. * stepNumber]
-# targetRates = [0]
-# cfg.simLabel = 'FoxP2_fI_%s/FoxP2' % str(amps)
+stepNumber = 300 # each step corresponds to 10 pA increase
+amps = [10 / 1000. * stepNumber]
+targetRates = [0]
+cfg.simLabel = 'FoxP2_fI_Depol%s_%s/FoxP2' % (str(amps), cfg.depolBlockModel)
+transitoryTime=132
 
-times = list(np.arange(32, timeBetweenCurrentSteps * len(amps), timeBetweenCurrentSteps))  # start times
+times = list(np.arange(transitoryTime, timeBetweenCurrentSteps * len(amps), timeBetweenCurrentSteps))  # start times
 
 #------------------------------------------------------------------------------
 # Run parameters
@@ -51,7 +55,7 @@ times = list(np.arange(32, timeBetweenCurrentSteps * len(amps), timeBetweenCurre
 cfg.duration = timeBetweenCurrentSteps * len(amps)
 cfg.dt = 0.1
 cfg.seeds = {'conn': 4321, 'stim': 1234, 'loc': 4321}
-cfg.hParams = {'celsius': 23, 'v_init': -80}
+cfg.hParams = {'celsius': 23, 'v_init': -86}
 cfg.verbose = False
 cfg.createNEURONObj = True
 cfg.createPyStruct = True
@@ -63,8 +67,7 @@ cfg.includeParamsLabel = True
 cfg.printPopAvgRates = True
 cfg.checkErrors = True
 cfg.connRandomSecFromList = False
-cfg.depolBlockModel = False
-cfg.hocFile = 'cells/FoxP2_Jan2025.hoc' # cells/FoxP2_Jan2025.hoc
+cfg.hocFile = 'cells/FoxP2_Jan2025.hoc'
 #------------------------------------------------------------------------------
 # Recording
 #------------------------------------------------------------------------------
@@ -101,11 +104,11 @@ cfg.addIClamp = True
 cfg.IClamp1 = {'pop': 'FoxP2', 'sec': 'soma', 'loc': 0.5, 'dur': dur, 'amp': amps, 'start': times}
 cfg.IClamp2 = {'pop': 'FoxP2', 'sec': 'soma', 'loc': 0.5, 'dur': cfg.duration, 'amp': -0.07, 'start': 0}
 
-cfg.format = 'png'
+cfg.format = 'eps'
 
 cfg.analysis['plotfI'] = {'amps': amps, 'times': times, 'dur': dur, 'target': {'rates': targetRates}, 'saveFig': True,
                           'showFig': False, 'calculateFeatures': '', 'fileType': cfg.format}
-timeRange = [0, cfg.duration]
+timeRange = [min(transitoryTime,100), cfg.duration]
 cfg.analysis['plotTraces'] = {'include': ['FoxP2'], 'timeRange': timeRange, 'oneFigPer': 'cell',
                               'figSize': (10, 4), 'saveFig': True, 'showFig': False, 'fileType': cfg.format}
 

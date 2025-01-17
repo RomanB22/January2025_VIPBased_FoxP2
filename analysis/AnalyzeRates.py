@@ -3,10 +3,13 @@ import matplotlib.pyplot as plt
 import pickle
 import auxFuncs
 
-model = 'OLD' # 'OLD' or ''
-# model = '' # 'OLD' or ''
-folder = 'figures%s' % model
-with open("results/SimSpikes%s.pkl" % model, 'rb') as f:
+depolBlock = True
+if depolBlock:
+    folder = 'figuresDepol'
+else:
+    folder = 'figuresNoDepol'
+
+with open("results/SimSpikesDepol%s.pkl" % depolBlock, 'rb') as f:
     dataDict = pickle.load(f)
 
 # Each entry in the dictionary has the following info: Condition, NumIncreasing, NumDecreasing, NumNotRelated,

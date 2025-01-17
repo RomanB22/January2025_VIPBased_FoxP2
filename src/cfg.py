@@ -7,7 +7,7 @@ cfg.preStim = 1800
 cfg.postStim = 1800
 cfg.duration = cfg.preStim + cfg.postStim
 cfg.GoNoGo = 'Go'
-cfg.Condition = 'MirrorDecre'+'_'+cfg.GoNoGo
+cfg.Condition = 'OnlyIncre'+'_'+cfg.GoNoGo
 # Membrane time constant of model is actually larger than experiment, thus for longer synapses,
 # membrane will decay slower to resting membrane potential, which is a problem
 # We compensate this effect by changing the taus to make synapses faster. Original values cfg.tau1 = 10
@@ -19,13 +19,13 @@ cfg.RangeConnectionsRFA = [66, 144] # Average connections from RFA to FoxP2 is 1
 cfg.IncreConn = 18
 cfg.DecreConn = 51
 cfg.NotChangingConn = 4
-cfg.numTrials = 100
+cfg.numTrials = 200
 cfg.synsPerConn = 1
 #------------------------------------------------------------------------------
 # Run parameters
 #------------------------------------------------------------------------------
 cfg.dt = 0.1
-cfg.v_init = -80
+cfg.v_init = -86
 cfg.seeds = {'conn': 4321, 'stim': 1234, 'loc': 4321}
 cfg.hParams = {'celsius': 34, 'v_init': cfg.v_init}
 cfg.verbose = 0
@@ -39,7 +39,8 @@ cfg.includeParamsLabel = True
 cfg.printPopAvgRates = True
 cfg.checkErrors = True
 cfg.connRandomSecFromList = False
-cfg.hocFile = 'cells/FoxP2_Jan2025_OLD.hoc'
+cfg.depolBlockModel = 'True'
+cfg.hocFile = 'cells/FoxP2_Jan2025.hoc'
 #------------------------------------------------------------------------------
 # Recording
 #------------------------------------------------------------------------------
@@ -70,7 +71,7 @@ cfg.IAmp = 0  # nA
 cfg.IClamp1 = {'pop': 'FoxP2', 'sec': 'soma', 'loc': 0.5, 'dur': cfg.duration, 'amp': cfg.IAmp, 'start': 0}
 
 cfg.addVecStim = True
-cfg.AMPAWeight = 0.002 # 0.004 for 200 pA of EPSC, 0.008 for 400 pA of EPSC
+cfg.AMPAWeight = 0.002 # 0.004 for 200 pA of EPSC. It generates around 20 mV of EPSP
 cfg.AMPANMDAWeightsIncre = cfg.AMPAWeight
 cfg.AMPANMDAWeightsDecre = cfg.AMPAWeight
 cfg.AMPANMDAWeightsNotChanging = cfg.AMPAWeight
@@ -78,7 +79,7 @@ cfg.AMPANMDAWeightsNotChanging = cfg.AMPAWeight
 # Since Rin in the model is twice as large than experiment, we use half of the weights,
 # to compensate that effect on the membrane potential
 
-cfg.simLabel = 'FoxP2_VecStim_%s_%s_%s/FoxP2' % (cfg.Condition, cfg.IncreConn, cfg.DecreConn)
+cfg.simLabel = 'FoxP2_VecStim_%s_%s_%s_Depol%s/FoxP2' % (cfg.Condition, cfg.IncreConn, cfg.DecreConn, cfg.depolBlockModel)
 
 cfg.somaProb = 0.2
 cfg.delay = 2

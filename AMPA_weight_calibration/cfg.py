@@ -34,7 +34,8 @@ cfg.includeParamsLabel = True
 cfg.printPopAvgRates = True
 cfg.checkErrors = True
 cfg.connRandomSecFromList = False
-cfg.hocFile = 'cells/FoxP2_Jan2025_OLD.hoc'
+cfg.depolBlockModel = False
+cfg.hocFile = 'cells/FoxP2_Jan2025.hoc'
 #------------------------------------------------------------------------------
 # Recording
 #------------------------------------------------------------------------------
@@ -46,7 +47,7 @@ cfg.recordLFP = False #[[10, y, 90] for y in range(450, 1250, 100)]
 cfg.saveLFPCells = False
 cfg.ESynMech = 'AMPA'
 cfg.delay = 2
-cfg.NetStimWeight = 0.004 # 0.004 for 200 pA of EPSC
+cfg.NetStimWeight = 0.004 # 0.004 for 200 pA of EPSC. It generates around 20 mV of EPSP
 cfg.NetStimDelay = cfg.delay
 cfg.synsPerConn = 1
 # Membrane time constant of model is actually larger than experiment, thus for longer synapses,
@@ -65,7 +66,7 @@ cfg.recordTraces = {'V_soma': {'sec': 'soma', 'loc': 0.5, 'var': 'v'},
 # Saving
 #------------------------------------------------------------------------------
 cfg.saveFolder = 'data/'
-cfg.simLabel = 'AMPA_SingleInput/FoxP2'
+cfg.simLabel = 'AMPA_SingleInput_Depol%s/FoxP2' % cfg.depolBlockModel
 cfg.savePickle = False
 cfg.saveJson = True
 cfg.saveDataInclude = ['simData', 'simConfig'] #['simData', 'simConfig', 'netParams', 'net']

@@ -4,7 +4,9 @@ import glob
 import numpy as np
 import pickle
 
-folder = '../data/gridsearch'
+DepolBlock=True
+
+folder = '../data/gridsearch_Dep%s' % DepolBlock
 
 files = sorted(glob.glob(folder + '/*_data.json'))
 
@@ -66,5 +68,5 @@ for file in files:
     dataDict[FileName]['SpikeDecre'] = SpikeDecre
     dataDict[FileName]['SpikeIncre'] = SpikeIncre
 
-with open("results/SimSpikes.pkl", 'wb') as f:
+with open("results/SimSpikesDepol%s.pkl" % DepolBlock, 'wb') as f:
     pickle.dump(dataDict, f)

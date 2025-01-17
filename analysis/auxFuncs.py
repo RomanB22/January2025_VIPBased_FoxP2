@@ -277,4 +277,77 @@ def PlotRate3D(X_vector, Y_vector, Z_vector, NumDecreasing, InVivoInputs=51, ind
     ax.set_ylabel(ylabel)
     plt.tight_layout()
 
+def CreateNeuronalArithmeticMatrix(df, TimeWindow1, TimeWindow2, AMPAWeight):
+    MatrixInVivo = []
+    MatrixMirrorDecre = []
+    MatrixOnlyIncre = []
 
+    # In Vivo values
+    for NumIncreasing in [int(18 * 0.25), int(18 * 0.5), int(18 * 0.75), 18, int(18 * 1.25), int(18 * 1.5),
+                          int(18 * 1.75), int(18 * 2), int(18 * 2.25), int(18 * 2.5)]:
+        for NumDecreasing in [int(51 * 0.25), int(51 * 0.5), int(51 * 0.75), 51, int(51 * 1.25), int(51 * 1.5),
+                              int(51 * 1.75), int(51 * 2), int(51 * 2.25), int(51 * 2.5)]:
+            dfMasked_1 = df[(df['NumIncreasing'] == NumIncreasing) & (df['NumDecreasing'] == NumDecreasing)
+                            & (df['Time'] >= TimeWindow1[0]) & (df['Time'] <= TimeWindow1[1])
+                            & (df['AMPAWeight'] == AMPAWeight)]
+
+            dfMasked_2 = df[(df['NumIncreasing'] == NumIncreasing) & (df['NumDecreasing'] == NumDecreasing)
+                            & (df['Time'] >= TimeWindow2[0]) & (df['Time'] <= TimeWindow2[1])
+                            & (df['AMPAWeight'] == AMPAWeight)]
+
+            for Condition in ['InVivo', 'OnlyIncre', 'MirrorDecre']:
+                dfAux1 = dfMasked_1[dfMasked_1['Condition'] == Condition][
+                    ['FoxP2Rate', 'DecRate', 'IncRate']].mean().values
+                dfAux2 = dfMasked_2[dfMasked_2['Condition'] == Condition][
+                    ['FoxP2Rate', 'DecRate', 'IncRate']].mean().values
+
+                # NumIncreasing, NumDecreasing, DecRate in window1, IncRate in window1, FoxP2 in window1, and same for window2
+                column = [NumIncreasing, NumDecreasing, dfAux1[1], dfAux1[2], dfAux1[0], dfAux2[1], dfAux2[2],
+                          dfAux2[0]]
+                if Condition == 'InVivo': MatrixInVivo.append(column)
+                if Condition == 'MirrorDecre': MatrixMirrorDecre.append(column)
+                if Condition == 'OnlyIncre': MatrixOnlyIncre.append(column)
+
+    MatrixInVivo = np.array(MatrixInVivo)
+    MatrixMirrorDecre = np.array(MatrixMirrorDecre)
+    MatrixOnlyIncre = np.array(MatrixOnlyIncre)
+
+    return MatrixInVivo, MatrixMirrorDecre, MatrixOnlyIncre
+
+def CalculateAvgRatePerNeuron(MatrixInVivo):
+    AvgDecreasing1 = 0
+    AvgIncreasing1 = 0
+    AvgDecreasing2 = 0
+    AvgIncreasing2 = 0
+
+    for i in range(len(MatrixInVivo)):
+        AvgDecreasing1 += MatrixInVivo[i, 2] / MatrixInVivo[i, 1]
+        AvgIncreasing1 += MatrixInVivo[i, 3] / MatrixInVivo[i, 0]
+        AvgDecreasing2 += MatrixInVivo[i, 5] / MatrixInVivo[i, 1]
+        AvgIncreasing2 += MatrixInVivo[i, 6] / MatrixInVivo[i, 0]
+
+    AvgDecreasing1 /= i + 1
+    AvgIncreasing1 /= i + 1
+    AvgDecreasing2 /= i + 1
+    AvgIncreasing2 /= i + 1
+
+    return AvgDecreasing1, AvgIncreasing1, AvgDecreasing2, AvgIncreasing2
+
+def IO_rateVsPT5BIncre(Matrix, TimeWindowIndex, colormap='viridis'):
+    cmap = plt.get_cmap(colormap)
+    colors = [cmap(i) for i in np.linspace(0, 1, 10)]
+
+    if TimeWindowIndex == 1:
+        index=3
+    elif TimeWindowIndex == 2:
+        index=6
+    for i in range(10):
+        plt.plot(Matrix[i::10, index], Matrix[i::10, index+1], '-',
+                 label='$PT5B_{dec}$ rate=$%2.1f$ $Hz$' % np.mean(Matrix[i::10, index-1]), color=colors[i])
+    plt.legend(loc='best', frameon=False)
+    plt.xlabel('$PT5B_{inc}$ rate (Hz)')
+    plt.ylabel('FoxP2 rate (Hz)')
+    ax = plt.gca()
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    plt.tight_layout()
