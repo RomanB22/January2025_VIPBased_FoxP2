@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy import ndimage
 import math
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+import matplotlib as mpl
 
 def bin_spikes(spike_times, dt, wdw_start, wdw_end):
     # Function that puts spikes into bins
@@ -73,8 +75,13 @@ def PlotRaster(RateFoxP2, RateDec, RateInc, time):
     cbar_ax = fig.add_axes([0.92, 0.15, 0.01, 0.7])
     fig.colorbar(im, cax=cbar_ax, label= 'Rate (Hz)')
 
-def CalculateAvgStd(RateFoxP2, RateDec, RateInc):
-    return RateFoxP2.mean(axis=0), RateDec.mean(axis=0), RateInc.mean(axis=0), RateFoxP2.std(axis=0), RateDec.std(axis=0), RateInc.std(axis=0)
+def CalculateAvgStd(RateFoxP2, RateDec, RateInc, perCell=False):
+    nSamples = np.shape(RateFoxP2)[0]
+    if perCell:
+        return RateFoxP2.mean(axis=0), RateDec.mean(axis=0)/np.shape(RateDec)[1], RateInc.mean(axis=0)/np.shape(RateInc)[1], RateFoxP2.std(axis=0) / np.sqrt(
+            nSamples), RateDec.std(axis=0)/np.shape(RateDec)[1] / np.sqrt(nSamples), RateInc.std(axis=0)/np.shape(RateInc)[1] / np.sqrt(nSamples)
+    else:
+        return RateFoxP2.mean(axis=0), RateDec.mean(axis=0), RateInc.mean(axis=0), RateFoxP2.std(axis=0)/np.sqrt(nSamples), RateDec.std(axis=0)/np.sqrt(nSamples), RateInc.std(axis=0)/np.sqrt(nSamples)
 
 def PlotRate(FoxP2_avg, Dec_avg, Inc_avg, FoxP2_std, Dec_std, Inc_std, time, alpha=0.1, Znormed=False, label=['FoxP2','PT5B dec','PT5B inc']):
     yminTot, ymaxTot = [], []
@@ -277,16 +284,16 @@ def PlotRate3D(X_vector, Y_vector, Z_vector, NumDecreasing, InVivoInputs=51, ind
     ax.set_ylabel(ylabel)
     plt.tight_layout()
 
-def CreateNeuronalArithmeticMatrix(df, TimeWindow1, TimeWindow2, AMPAWeight):
+def CreateNeuronalArithmeticMatrix(df, TimeWindow1, TimeWindow2, AMPAWeight,
+                                   IncreList=[1, 2, 3, 4, 5, 6, 7, 8],
+                                   DecreList=[1, 3, 6, 9, 12, 15, 18, 21]):
     MatrixInVivo = []
     MatrixMirrorDecre = []
     MatrixOnlyIncre = []
 
     # In Vivo values
-    for NumIncreasing in [int(18 * 0.25), int(18 * 0.5), int(18 * 0.75), 18, int(18 * 1.25), int(18 * 1.5),
-                          int(18 * 1.75), int(18 * 2), int(18 * 2.25), int(18 * 2.5)]:
-        for NumDecreasing in [int(51 * 0.25), int(51 * 0.5), int(51 * 0.75), 51, int(51 * 1.25), int(51 * 1.5),
-                              int(51 * 1.75), int(51 * 2), int(51 * 2.25), int(51 * 2.5)]:
+    for NumIncreasing in IncreList:
+        for NumDecreasing in DecreList:
             dfMasked_1 = df[(df['NumIncreasing'] == NumIncreasing) & (df['NumDecreasing'] == NumDecreasing)
                             & (df['Time'] >= TimeWindow1[0]) & (df['Time'] <= TimeWindow1[1])
                             & (df['AMPAWeight'] == AMPAWeight)]
@@ -333,21 +340,60 @@ def CalculateAvgRatePerNeuron(MatrixInVivo):
 
     return AvgDecreasing1, AvgIncreasing1, AvgDecreasing2, AvgIncreasing2
 
-def IO_rateVsPT5BIncre(Matrix, TimeWindowIndex, colormap='viridis'):
+def IO_rateVsPT5BIncre(Matrix, TimeWindowIndex, colormap='viridis', length=16,
+                       IncreList=[0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 30, 32],
+                       DecreList=[0, 1, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42], vmax=1900):
+    fig = plt.figure()
     cmap = plt.get_cmap(colormap)
-    colors = [cmap(i) for i in np.linspace(0, 1, 10)]
-
     if TimeWindowIndex == 1:
         index=3
     elif TimeWindowIndex == 2:
         index=6
-    for i in range(10):
-        plt.plot(Matrix[i::10, index], Matrix[i::10, index+1], '-',
-                 label='$PT5B_{dec}$ rate=$%2.1f$ $Hz$' % np.mean(Matrix[i::10, index-1]), color=colors[i])
-    plt.legend(loc='best', frameon=False)
+    norm = mpl.colors.Normalize(vmin=0, vmax=vmax)
+    for i in range(0,length,3):
+        line_colors = cmap(norm(Matrix[i::length, index-1]))
+        plt.plot(Matrix[i::length, index], Matrix[i::length, index+1], '-',
+                 label='$PT5B_{dec}$ inputs=$%d$' % DecreList[i], color=line_colors[i])
     plt.xlabel('$PT5B_{inc}$ rate (Hz)')
     plt.ylabel('FoxP2 rate (Hz)')
+    plt.ylim([0, 150])
     ax = plt.gca()
+    ax.plot(Matrix[19, index], Matrix[19, index+1], 'r*', label='In-vivo')
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
+    plt.legend(loc='best', frameon=False)
+    divider = make_axes_locatable(ax)
+    cax = divider.append_axes('right', size='5%', pad=0.1)
+    sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
+    sm.set_array([])
+    fig.colorbar(sm, cax=cax, orientation='vertical', label='$PT5B_{dec}$ average rate (Hz)')
+    plt.tight_layout()
+
+def PlotCorrelationHeatmap(MatrixInVivo, AvgDecreInVivo_w1, AvgIncreInVivo_w1, AvgDecreInVivo_w2, AvgIncreInVivo_w2, NumDecre_axis, NumIncre_axis):
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 15))
+    length = len(NumDecre_axis)
+    ax1.imshow(MatrixInVivo[:, 2].reshape((length, length)))
+    ax1.set_xticks(ticks=[i for i in range(length)], labels=['%1.0f' % (i * AvgDecreInVivo_w1) for i in NumDecre_axis],
+                   fontsize=9)
+    ax1.set_yticks(ticks=[i for i in range(length)], labels=['%1.0f' % (i * AvgIncreInVivo_w1) for i in NumIncre_axis],
+                   fontsize=9)
+    ax1.set_title('-250 ms - 500 ms', fontsize=9)
+    ax1.set_xlabel('$PT5B_{dec}$ rate (Hz)', fontsize=9)
+    ax1.set_ylabel('$PT5B_{inc}$ rate (Hz)', fontsize=9)
+    ax1.plot(3, 1, '*r', label='In-vivo inputs')
+    # ax1.legend(loc='best', frameon=False)
+
+    im = ax2.imshow(MatrixInVivo[:, 6].reshape((length, length))) #, vmin=-0.1, vmax=0.6
+    ax2.set_xticks(ticks=[i for i in range(length)], labels=['%1.0f' % (i * AvgDecreInVivo_w2) for i in NumDecre_axis],
+                   fontsize=9)
+    ax2.set_yticks(ticks=[i for i in range(length)], labels=['%1.0f' % (i * AvgIncreInVivo_w2) for i in NumIncre_axis],
+                   fontsize=9)
+    ax2.set_title('500 ms -1250 ms', fontsize=9)
+    ax2.set_xlabel('$PT5B_{dec}$ rate (Hz)', fontsize=9)
+    ax2.set_ylabel('$PT5B_{inc}$ rate (Hz)', fontsize=9)
+    ax2.plot(3, 1, '*r', label='In-vivo inputs')
+    ax2.legend(loc='upper right', frameon=False)
+    divider = make_axes_locatable(ax2)
+    cax = divider.append_axes('right', size='5%', pad=0.05)
+    fig.colorbar(im, cax=cax, orientation='vertical', label='Correlation')
     plt.tight_layout()

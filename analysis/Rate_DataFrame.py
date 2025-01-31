@@ -4,7 +4,7 @@ import pickle
 import auxFuncs
 import pandas as pd
 
-DepolBlock=True
+DepolBlock=False
 with open("results/SimSpikesDepol%s.pkl" % DepolBlock, 'rb') as f:
     dataDict = pickle.load(f)
 
@@ -38,7 +38,7 @@ for k, v in dataDict.items():
     IAmp = float(IAmp)
 
     dt = 1  # ms
-    window_size = 100  # in time will be window_size*dt
+    window_size = 50  # in time will be window_size*dt
     MovementTime = 1800
     PreWindow_start = 0
     PreWindow_end = MovementTime

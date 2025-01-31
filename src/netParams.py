@@ -8,7 +8,7 @@ cfg.update_cfg()
 ### params ###
 # Network parameters
 netParams = specs.NetParams()  # object of class NetParams to store the network parameters
-netParams.defaultThreshold = 0
+netParams.defaultThreshold = -10
 netParams.defineCellShapes = False       # sets 3d geometry aligned along the y-axis
 netParams.version = 1
 ###############################################################################
@@ -292,15 +292,18 @@ if cfg.addVecStim:
         spikeTimesDecreTrial = spikeTimesDecre[Trial]
         spikeTimesNotChangingTrial = spikeTimesNotChanging[Trial]
         ### Define Populations
-        netParams.popParams[f'Increasing_{Trial}'] = {'cellModel': 'VecStim',
-                                                      'numCells': len(spikeTimesIncreTrial),
-                                                      'spkTimes': spikeTimesIncreTrial}
-        netParams.popParams[f'Decreasing_{Trial}'] = {'cellModel': 'VecStim',
-                                                      'numCells': len(spikeTimesDecreTrial),
-                                                      'spkTimes': spikeTimesDecreTrial}
-        netParams.popParams[f'NotChanging_{Trial}'] = {'cellModel': 'VecStim',
-                                                       'numCells': len(spikeTimesNotChangingTrial),
-                                                       'spkTimes': spikeTimesNotChangingTrial}
+        if cfg.IncreConn > 0:
+            netParams.popParams[f'Increasing_{Trial}'] = {'cellModel': 'VecStim',
+                                                          'numCells': len(spikeTimesIncreTrial),
+                                                          'spkTimes': spikeTimesIncreTrial}
+        if cfg.DecreConn > 0:
+            netParams.popParams[f'Decreasing_{Trial}'] = {'cellModel': 'VecStim',
+                                                          'numCells': len(spikeTimesDecreTrial),
+                                                          'spkTimes': spikeTimesDecreTrial}
+        if cfg.NotChangingConn>0:
+            netParams.popParams[f'NotChanging_{Trial}'] = {'cellModel': 'VecStim',
+                                                           'numCells': len(spikeTimesNotChangingTrial),
+                                                           'spkTimes': spikeTimesNotChangingTrial}
         Weights = {'Increasing': cfg.AMPANMDAWeightsIncre, 'Decreasing': cfg.AMPANMDAWeightsDecre,
                    'NotChanging': cfg.AMPANMDAWeightsNotChanging}
 

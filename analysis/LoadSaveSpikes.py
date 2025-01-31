@@ -4,7 +4,7 @@ import glob
 import numpy as np
 import pickle
 
-DepolBlock=True
+DepolBlock=False
 
 folder = '../data/gridsearch_Dep%s' % DepolBlock
 
@@ -52,10 +52,16 @@ for file in files:
         SpikesList.append(Spiketimes)
 
         # Concatenate all input spikes per trial
-        SpiketimesDecre = np.sort([s for i in data['net']['pops']['Decreasing_%d' % i]['tags']['spkTimes']
-                                    for s in i])
-        SpiketimesIncre = np.sort([s for i in data['net']['pops']['Increasing_%d' % i]['tags']['spkTimes']
-                                    for s in i])
+        try:
+            SpiketimesDecre = np.sort([s for i in data['net']['pops']['Decreasing_%d' % i]['tags']['spkTimes']
+                                        for s in i])
+        except:
+            SpiketimesDecre = []
+        try:
+            SpiketimesIncre = np.sort([s for i in data['net']['pops']['Increasing_%d' % i]['tags']['spkTimes']
+                                        for s in i])
+        except:
+            SpiketimesIncre = []
 
         SpikeDecre.append(SpiketimesDecre)
         SpikeIncre.append(SpiketimesIncre)

@@ -35,13 +35,13 @@ targetRates = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2.
                43.67816092, 43.67816092, 45.97701149, 45.97701149, 45.97701149, 48.27586207, 48.27586207,
                50.57471264, 50.57471264, 50.57471264, 52.87356322, 52.87356322, 52.87356322, 52.87356322]
 
-cfg.depolBlockModel = True
+cfg.depolBlockModel = False
 
 amps = amps[::steps]
 targetRates = targetRates[::steps]
 cfg.simLabel = 'FoxP2_fI_Depol%s/FoxP2' % cfg.depolBlockModel
 # For single step simulation uncomment following lines
-stepNumber = 300 # each step corresponds to 10 pA increase
+stepNumber = 21 # each step corresponds to 10 pA increase
 amps = [10 / 1000. * stepNumber]
 targetRates = [0]
 cfg.simLabel = 'FoxP2_fI_Depol%s_%s/FoxP2' % (str(amps), cfg.depolBlockModel)

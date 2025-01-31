@@ -46,16 +46,16 @@ cfg.recordStep = 0.1
 cfg.recordLFP = False #[[10, y, 90] for y in range(450, 1250, 100)]
 cfg.saveLFPCells = False
 cfg.ESynMech = 'AMPA'
-cfg.delay = 2
-cfg.NetStimWeight = 0.004 # 0.004 for 200 pA of EPSC. It generates around 20 mV of EPSP
+cfg.delay = 3.8
+cfg.NetStimWeight = 0.002 # 0.004 for 200 pA of EPSC. It generates around 20 mV of EPSP
 cfg.NetStimDelay = cfg.delay
 cfg.synsPerConn = 1
 # Membrane time constant of model is actually larger than experiment, thus for longer synapses,
 # membrane will decay slower to resting membrane potential, which is a problem
-# We compensate this effect by changing the taus to make synapses faster. Original values cfg.tau1 = 10
-# cfg.tau2 = 80
-cfg.tau1 = 5 #10
-cfg.tau2 = 60 #80
+# We compensate this effect by changing the taus to make synapses faster. Original values cfg.tau1 = 3
+# cfg.tau2 = 10
+cfg.tau1 = 3
+cfg.tau2 = 10
 
 cfg.InputSection = 'soma' # soma, rad1, rad2, ori1, ori2
 
@@ -80,9 +80,9 @@ cfg.saveCellConns = True
 #------------------------------------------------------------------------------
 cfg.addNetStim = True
 
-cfg.format = 'png'
+cfg.format = 'eps'
 
-timeRange = [cfg.duration/2-50, cfg.duration/2+800]
+timeRange = [cfg.duration/2-50, cfg.duration/2+100]
 cfg.analysis['plotTraces'] = {'include': ['FoxP2'], 'timeRange': timeRange, 'oneFigPer': 'cell',
                               'figSize': (10, 4), 'saveFig': True, 'showFig': False, 'fileType': cfg.format}
 

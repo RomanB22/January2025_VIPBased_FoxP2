@@ -7,19 +7,18 @@ cfg.preStim = 1800
 cfg.postStim = 1800
 cfg.duration = cfg.preStim + cfg.postStim
 cfg.GoNoGo = 'Go'
-cfg.Condition = 'OnlyIncre'+'_'+cfg.GoNoGo
+cfg.Condition = 'InVivo'+'_'+cfg.GoNoGo
 # Membrane time constant of model is actually larger than experiment, thus for longer synapses,
 # membrane will decay slower to resting membrane potential, which is a problem
-# We compensate this effect by changing the taus to make synapses faster. Original values cfg.tau1 = 10
-# cfg.tau2 = 80
-cfg.tau1 = 5 #10
-cfg.tau2 = 60 #80
+# We compensate this effect by changing the taus to make synapses faster.
+cfg.tau1 = 3
+cfg.tau2 = 10
 cfg.RangeConnectionsCFA = [57, 87] # Average connections from CFA to FoxP2 is 72±15. Not used yet. RELEVANT!
 cfg.RangeConnectionsRFA = [66, 144] # Average connections from RFA to FoxP2 is 105±39. Not used yet
-cfg.IncreConn = 18
-cfg.DecreConn = 51
-cfg.NotChangingConn = 4
-cfg.numTrials = 200
+cfg.IncreConn = 2
+cfg.DecreConn = 5
+cfg.NotChangingConn = 0
+cfg.numTrials = 300
 cfg.synsPerConn = 1
 #------------------------------------------------------------------------------
 # Run parameters
@@ -39,7 +38,7 @@ cfg.includeParamsLabel = True
 cfg.printPopAvgRates = True
 cfg.checkErrors = True
 cfg.connRandomSecFromList = False
-cfg.depolBlockModel = 'True'
+cfg.depolBlockModel = 'False'
 cfg.hocFile = 'cells/FoxP2_Jan2025.hoc'
 #------------------------------------------------------------------------------
 # Recording
@@ -65,7 +64,7 @@ cfg.gatherOnlySimData = False
 cfg.saveCellSecs = False
 cfg.saveCellConns = True
 
-cfg.addIClamp=True
+cfg.addIClamp=False
 cfg.IAmp = 0  # nA
 # current injection params
 cfg.IClamp1 = {'pop': 'FoxP2', 'sec': 'soma', 'loc': 0.5, 'dur': cfg.duration, 'amp': cfg.IAmp, 'start': 0}
@@ -82,7 +81,7 @@ cfg.AMPANMDAWeightsNotChanging = cfg.AMPAWeight
 cfg.simLabel = 'FoxP2_VecStim_%s_%s_%s_Depol%s/FoxP2' % (cfg.Condition, cfg.IncreConn, cfg.DecreConn, cfg.depolBlockModel)
 
 cfg.somaProb = 0.2
-cfg.delay = 2
+cfg.delay = 3.8
 cfg.ESynMech = 'AMPA'
 
 cfg.addNetStim = True

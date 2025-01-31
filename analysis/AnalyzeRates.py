@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import pickle
 import auxFuncs
 
-depolBlock = True
+depolBlock = False
 if depolBlock:
     folder = 'figuresDepol'
 else:
@@ -14,7 +14,7 @@ with open("results/SimSpikesDepol%s.pkl" % depolBlock, 'rb') as f:
 
 # Each entry in the dictionary has the following info: Condition, NumIncreasing, NumDecreasing, NumNotRelated,
 # NetStimPre, NetStimPost, NetStimNoise, AMPAWeight, SynsPerConn, IAmp, NoisePresent
-# Inside eahc entry, it has the following keys: ['SpikeFoxP2', 'SpikeDecre', 'SpikeIncre']
+# Inside each entry, it has the following keys: ['SpikeFoxP2', 'SpikeDecre', 'SpikeIncre']
 # In the inputs, this is just aggregate spikes for every trial and each subpopulation. In order to calculate per
 # neuron average firing rate for the inputs I have to calculate the average firing rate and divide it by the
 # number of cells
@@ -35,9 +35,11 @@ for k, v in dataDict.items():
     AMPAWeight = float(AMPAWeight)
     IAmp = float(IAmp)
 
+    if NumIncreasing!=2 or NumDecreasing!=6 or AMPAWeight!=0.002: continue
+
     dt = 1  # ms
-    window_size = 100 # in time will be window_size*dt
-    PreWindow_start = 1200
+    window_size = 50 # in time will be window_size*dt
+    PreWindow_start = 800
     PreWindow_end = 1800
     PostWindow_start = 1800
     PostWindow_end = 3600
@@ -54,10 +56,10 @@ for k, v in dataDict.items():
     # plt.show()
 
     # Calculate average rate and standard deviation
-    FoxP2_avg, Dec_avg, Inc_avg, FoxP2_std, Dec_std, Inc_std = auxFuncs.CalculateAvgStd(RateFoxP2, RateDec, RateInc)
+    FoxP2_avg, Dec_avg, Inc_avg, FoxP2_std, Dec_std, Inc_std = auxFuncs.CalculateAvgStd(RateFoxP2, RateDec, RateInc, perCell=True)
     auxFuncs.PlotRate(FoxP2_avg, Dec_avg, Inc_avg, FoxP2_std, Dec_std, Inc_std, time)
     plt.title(k)
-    plt.savefig(folder+'/Rate_%s.png' % k)
+    plt.savefig(folder+'/Rate_%s.eps' % k)
     plt.close()
 
     # Z-normalized rate
@@ -65,7 +67,7 @@ for k, v in dataDict.items():
     FoxP2_Zavg, Dec_Zavg, Inc_Zavg, FoxP2_Zstd, Dec_Zstd, Inc_Zstd = auxFuncs.CalculateAvgStd(FoxP2Raster_znorm, DecRaster_znorm, IncRaster_znorm)
     auxFuncs.PlotRate(FoxP2_Zavg, Dec_Zavg, Inc_Zavg, FoxP2_Zstd, Dec_Zstd, Inc_Zstd, time, Znormed=True)
     plt.title(k)
-    plt.savefig(folder+'/Z_Rate_%s.png' % k)
+    plt.savefig(folder+'/Z_Rate_%s.eps' % k)
     plt.close()
 
     # Difference between input and output rate
@@ -76,7 +78,7 @@ for k, v in dataDict.items():
     auxFuncs.PlotDiff(FoxP2Inc_avg, FoxP2Dec_avg, IncDec_avg, FoxP2Inc_std, FoxP2Dec_std, IncDec_std, time,
                       label=['FoxP2 - Inc', 'FoxP2 - Dec', 'Inc - Dec'])
     plt.title(k)
-    plt.savefig(folder+'/Diff_%s.png' % k)
+    plt.savefig(folder+'/Diff_%s.eps' % k)
     plt.close()
     # Difference between z-normed rates
     FoxP2_IncRate_diff, FoxP2_DecRate_diff, Inc_DecRaster_diff = auxFuncs.CalculateDifference(FoxP2Raster_znorm, DecRaster_znorm, IncRaster_znorm)
@@ -88,7 +90,7 @@ for k, v in dataDict.items():
     auxFuncs.PlotDiff(FoxP2Inc_avg, FoxP2Dec_avg, IncDec_avg, FoxP2Inc_std, FoxP2Dec_std, IncDec_std, time,
                       label=['FoxP2 - Inc', 'FoxP2 - Dec', 'Inc - Dec'])
     plt.title(k)
-    plt.savefig(folder+'/Z_Diff_%s.png' % k)
+    plt.savefig(folder+'/Z_Diff_%s.eps' % k)
     plt.close()
 
 
