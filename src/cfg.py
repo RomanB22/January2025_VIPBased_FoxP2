@@ -70,7 +70,7 @@ cfg.IAmp = 0  # nA
 cfg.IClamp1 = {'pop': 'FoxP2', 'sec': 'soma', 'loc': 0.5, 'dur': cfg.duration, 'amp': cfg.IAmp, 'start': 0}
 
 cfg.addVecStim = True
-cfg.AMPAWeight = 0.002 # 0.004 for 200 pA of EPSC. It generates around 20 mV of EPSP
+cfg.AMPAWeight = 0.004 # 0.004 for 200 pA of EPSC. It generates around 20 mV of EPSP
 cfg.AMPANMDAWeightsIncre = cfg.AMPAWeight
 cfg.AMPANMDAWeightsDecre = cfg.AMPAWeight
 cfg.AMPANMDAWeightsNotChanging = cfg.AMPAWeight
