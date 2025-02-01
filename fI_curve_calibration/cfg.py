@@ -68,6 +68,7 @@ cfg.printPopAvgRates = True
 cfg.checkErrors = True
 cfg.connRandomSecFromList = False
 cfg.hocFile = 'cells/FoxP2_Jan2025.hoc'
+cfg.saveInterval = 50
 #------------------------------------------------------------------------------
 # Recording
 #------------------------------------------------------------------------------
@@ -107,10 +108,10 @@ cfg.IClamp2 = {'pop': 'FoxP2', 'sec': 'soma', 'loc': 0.5, 'dur': cfg.duration, '
 cfg.format = 'eps'
 
 cfg.analysis['plotfI'] = {'amps': amps, 'times': times, 'dur': dur, 'target': {'rates': targetRates}, 'saveFig': True,
-                          'showFig': False, 'calculateFeatures': '', 'fileType': cfg.format}
+                          'showFig': False, 'calculateFeatures': ''}
 timeRange = [min(transitoryTime,100), cfg.duration]
 cfg.analysis['plotTraces'] = {'include': ['FoxP2'], 'timeRange': timeRange, 'oneFigPer': 'cell',
-                              'figSize': (10, 4), 'saveFig': True, 'showFig': False, 'fileType': cfg.format}
+                              'figSize': (10, 4), 'saveFig': True, 'showFig': False}
 
 #------------------------------------------------------------------------------
 # Parameters

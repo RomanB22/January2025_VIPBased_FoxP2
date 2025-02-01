@@ -40,6 +40,7 @@ cfg.checkErrors = True
 cfg.connRandomSecFromList = False
 cfg.depolBlockModel = 'False'
 cfg.hocFile = 'cells/FoxP2_Jan2025.hoc'
+cfg.saveInterval = 50
 #------------------------------------------------------------------------------
 # Recording
 #------------------------------------------------------------------------------
@@ -102,15 +103,15 @@ cfg.format = 'png'
 
 cfg.analysis['plotTraces'] = {'include': [('FoxP2', i) for i in range(5)], 'timeRange': timeRange,
                               'oneFigPer': 'trace', 'overlay': False, 'figSize': (10, 10),
-                              'saveFig': True, 'fileType': cfg.format,
+                              'saveFig': True, 
                               'showFig': False}
 
 cfg.analysis['plotRaster'] = {'include': [('FoxP2', i) for i in range(cfg.numTrials)], 'timeRange': timeRange,
                               'orderInverse': False, 'figSize': (5, 5),
-                              'saveFig': True, 'fileType': cfg.format,
+                              'saveFig': True, 
                               'showFig': False}
 
 cfg.analysis['plotSpikeFreq'] = {'include': ['FoxP2'], 'timeRange': timeRange, 'measure': 'rate', 'binSize': 40,
-                                 'saveFig': True, 'fileType': cfg.format,
+                                 'saveFig': True, 
                                  'showFig': False, 'density': False,
                                  'xlabel': 'Time (ms)', 'marker': 'x'}
