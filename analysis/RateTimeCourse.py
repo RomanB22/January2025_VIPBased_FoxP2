@@ -30,8 +30,8 @@ X_vector = []
 Y_vector = []
 Z_vector = []
 Surface_vector = []
-Variable = 'Time' # 'NumIncreasing' 'NumDecreasing' 'Time'
-Index = 20 #1
+Variable = 'NumDecreasing' # 'NumIncreasing' 'NumDecreasing' 'Time'
+Index = 1 #1
 NumDecreasing = np.unique(dfMasked[Variable])[Index] # NumDecreasing [1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41]
                                            # NumIncreasing [1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41]
 # Time windows [ 825.  875.  925.  975. 1025. 1075. 1125. 1175. 1225. 1275. 1325. 1375.

@@ -397,3 +397,33 @@ def PlotCorrelationHeatmap(MatrixInVivo, AvgDecreInVivo_w1, AvgIncreInVivo_w1, A
     cax = divider.append_axes('right', size='5%', pad=0.05)
     fig.colorbar(im, cax=cax, orientation='vertical', label='Correlation')
     plt.tight_layout()
+
+def IO_gradientVsPT5BIncre(Matrix, TimeWindowIndex, colormap='viridis', length=16,
+                       IncreList=[0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 30, 32],
+                       DecreList=[0, 1, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42], vmax=1900):
+    fig = plt.figure()
+    cmap = plt.get_cmap(colormap)
+    if TimeWindowIndex == 1:
+        index=3
+    elif TimeWindowIndex == 2:
+        index=6
+    norm = mpl.colors.Normalize(vmin=0, vmax=vmax)
+    for i in range(0,length,3):
+        line_colors = cmap(norm(Matrix[i::length, index-1]))
+        x = Matrix[i::length, index]
+        gradient = np.gradient(Matrix[i::length, index+1], x)
+        plt.plot(x, gradient, '-',
+                 label='$PT5B_{dec}$ inputs=$%d$' % DecreList[i], color=line_colors[i])
+    plt.xlabel('$PT5B_{inc}$ rate (Hz)')
+    plt.ylabel('FoxP2 gain')
+    ax = plt.gca()
+    # ax.plot(Matrix[19, index], Matrix[19, index+1], 'r*', label='In-vivo')
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    plt.legend(loc='best', frameon=False)
+    divider = make_axes_locatable(ax)
+    cax = divider.append_axes('right', size='5%', pad=0.1)
+    sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
+    sm.set_array([])
+    fig.colorbar(sm, cax=cax, orientation='vertical', label='$PT5B_{dec}$ average rate (Hz)')
+    plt.tight_layout()

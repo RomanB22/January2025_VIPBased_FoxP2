@@ -255,6 +255,10 @@ def SampleSpikeTrains(SimulatedSpikes, numNeurons, numTrials):
 
     return sampledKeys, spikeTimes
 
+# In order to update the previous value after the cfg.update_cfg()
+cfg.IncreConn = cfg.IncDec[0]
+cfg.DecreConn = cfg.IncDec[1]
+
 if cfg.addVecStim:
     ####
     # Load the spike trains
@@ -307,6 +311,85 @@ if cfg.addVecStim:
         Weights = {'Increasing': cfg.AMPANMDAWeightsIncre, 'Decreasing': cfg.AMPANMDAWeightsDecre,
                    'NotChanging': cfg.AMPANMDAWeightsNotChanging}
 
+        # ------------------------------------------------------------------------------
+        # NetStim inputs
+        # ------------------------------------------------------------------------------
+        if cfg.addNetStim:
+            # add stim source
+            def poisson_generator(rate, t_start=0.0, t_stop=1000.0, seed=None):
+                """
+                Returns a SpikeTrain whose spikes are a realization of a Poisson process
+                with the given rate (Hz) and stopping time t_stop (milliseconds).
+
+                Note: t_start is always 0.0, thus all realizations are as if
+                they spiked at t=0.0, though this spike is not included in the SpikeList.
+
+                Inputs:
+                -------
+                    rate    - the rate of the discharge (in Hz)
+                    t_start - the beginning of the SpikeTrain (in ms)
+                    t_stop  - the end of the SpikeTrain (in ms)
+                    array   - if True, a np array of sorted spikes is returned,
+                                rather than a SpikeTrain object.
+
+                Examples:
+                --------
+                    >> gen.poisson_generator(50, 0, 1000)
+                    >> gen.poisson_generator(20, 5000, 10000, array=True)
+
+                See also:
+                --------
+                    inh_poisson_generator, inh_gamma_generator, inh_adaptingmarkov_generator
+                """
+
+                rng = np.random.RandomState(seed)
+
+                # number = int((t_stop-t_start)/1000.0*2.0*rate)
+
+                # less wasteful than double length method above
+                n = (t_stop - t_start) / 1000.0 * rate
+                number = np.ceil(n + 3 * np.sqrt(n))
+                if number < 100:
+                    number = min(5 + np.ceil(2 * n), 100)
+
+                if number > 0:
+                    isi = rng.exponential(1.0 / rate, int(number)) * 1000.0
+                    if number > 1:
+                        spikes = np.add.accumulate(isi)
+                    else:
+                        spikes = isi
+                else:
+                    spikes = np.array([])
+
+                spikes += t_start
+                i = np.searchsorted(spikes, t_stop)
+
+                extra_spikes = []
+                if i == len(spikes):
+                    # ISI buf overrun
+
+                    t_last = spikes[-1] + rng.exponential(1.0 / rate, 1)[0] * 1000.0
+
+                    while (t_last < t_stop):
+                        extra_spikes.append(t_last)
+                        t_last += rng.exponential(1.0 / rate, 1)[0] * 1000.0
+
+                    spikes = np.concatenate((spikes, extra_spikes))
+
+                else:
+                    spikes = np.resize(spikes, (i,))
+
+                return spikes
+            BackgroundSpikesPre = poisson_generator(cfg.NetStimRatePre, t_start=0.0, t_stop=cfg.preStim, seed=None)
+            BackgroundSpikesPost = poisson_generator(cfg.NetStimRatePost, t_start=cfg.preStim, t_stop=cfg.duration, seed=None)
+
+            BackgroundSpikes = np.concatenate((BackgroundSpikesPre, BackgroundSpikesPost))
+
+            netParams.popParams[f'ExtraInputs_{Trial}'] = {'cellModel': 'VecStim',
+                                              'numCells': 1,
+                                              'spkTimes': BackgroundSpikes.tolist()}
+            Weights['ExtraInputs'] = cfg.NetStimWeight
+
     ####
     # Connect them
     PT5Bpops = [i for i in netParams.popParams.keys() if i != 'FoxP2']
@@ -342,40 +425,6 @@ if cfg.addVecStim:
 
 else:
     netParams.popParams['FoxP2'] = {'cellModel': 'HH_reduced', 'cellType': 'FoxP2', 'numCells': 1}
-
-# ------------------------------------------------------------------------------
-# NetStim inputs
-# ------------------------------------------------------------------------------
-if cfg.addNetStim:
-    # add stim source
-    netParams.stimSourceParams['ExtraInputsPre'] = {'type': 'NetStim', 'start': 0,
-                                                    'dur': cfg.duration / 2, 'interval': 1000 / cfg.NetStimRatePre,
-                                                    'noise': cfg.NetStimNoise, 'number': cfg.NetStimNumber}
-    netParams.stimSourceParams['ExtraInputsPos'] = {'type': 'NetStim', 'start': cfg.duration / 2,
-                                                    'dur': cfg.duration / 2, 'interval': 1000 / cfg.NetStimRatePost,
-                                                    'noise': cfg.NetStimNoise, 'number': cfg.NetStimNumber}
-    # connect stim source to target
-    netParams.stimTargetParams['ExtraInputsPre_FoxP2'] = {
-        'source': 'ExtraInputsPre',
-        'conds': {'popLabel': 'FoxP2'},
-        'synsPerConn': cfg.synsPerConn,
-        'sec': 'soma',
-        'loc': 0.5,
-        'synMech': cfg.ESynMech,
-        'weight': cfg.NetStimWeight,
-        'delay': cfg.NetStimDelay}
-
-    # connect stim source to target
-    netParams.stimTargetParams['ExtraInputsPos_FoxP2'] = {
-        'source': 'ExtraInputsPos',
-        'conds': {'popLabel': 'FoxP2'},
-        'synsPerConn': cfg.synsPerConn,
-        'sec': 'soma',  # dend y soma?
-        'loc': 0.5,
-        'synMech': cfg.ESynMech,
-        'weight': cfg.NetStimWeight,
-        'delay': cfg.NetStimDelay}
-
 #------------------------------------------------------------------------------
 # Current inputs (IClamp)
 #------------------------------------------------------------------------------

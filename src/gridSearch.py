@@ -9,8 +9,10 @@ params = {'IAmp': [0],
           'NetStimRateProportion': [0.87], #[0, 0.87, 1] # Percentage of background noise after movement with respect to preparation
           'AMPA_weight': [0.002], # Same for all connections. ? Unknown variable
           'delay': [3.8], # 3.8
-          'IncreConn': [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 30, 32], # 25% Incre - 65% Decre
-          'DecreConn': [0, 1, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42], #
+          'IncDec': [(0,2),(1,1),(2,0),
+                     (0,8),(1,7),(2,6),(3,5),(4,4),(5,3),(6,2),(7,1),(8,0),
+                     (0,20),(1,19),(2,18),(3,17),(4,16),(5,15),(6,14),(7,13),(8,12),(9,11),(10,10),
+                     (11,9),(12,8),(13,7),(14,6),(15,5),(16,4),(17,3),(18,2),(19,1),(20,0)],
           'NotChangingConn': [0], # ? Unknown variable. Fixed to 5-10%
           'synsPerConn': [1], # ? Unknown variable
           'Condition': ['InVivo_Go', 'OnlyIncre_Go', 'MirrorDecre_Go']
@@ -40,4 +42,4 @@ search(job_type = 'sh', # or 'sh'
        run_config = run_config,
        num_samples = 1,
        algorithm = "variant_generator",
-       max_concurrent = 10)
+       max_concurrent = 5)
