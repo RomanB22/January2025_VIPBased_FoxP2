@@ -40,6 +40,19 @@ def CalculateRate(SpikesFoxP2, SpikesDec, SpikesInc, window_size, dt, PreWindow_
 
     return RateFoxP2, RateDec, RateInc
 
+def CalculateRateNew(SpikesFoxP2, SpikesDec, SpikesInc, SpikesBackground, window_size, dt, PreWindow_start, PostWindow_end):
+    RasterFoxP2 = bin_spikes(SpikesFoxP2, window_size * dt, PreWindow_start, PostWindow_end + dt).T
+    RasterDec = bin_spikes(SpikesDec, window_size * dt, PreWindow_start, PostWindow_end + dt).T
+    RasterInc = bin_spikes(SpikesInc, window_size * dt, PreWindow_start, PostWindow_end + dt).T
+    RasterBackground = bin_spikes(SpikesBackground, window_size * dt, PreWindow_start, PostWindow_end + dt).T
+
+    RateFoxP2 = RasterFoxP2 * 1000 / (window_size * dt)
+    RateDec = RasterDec * 1000 / (window_size * dt)
+    RateInc = RasterInc * 1000 / (window_size * dt)
+    RateBackground = RasterBackground * 1000 / (window_size * dt)
+
+    return RateFoxP2, RateDec, RateInc, RateBackground
+
 def PlotRaster(RateFoxP2, RateDec, RateInc, time):
     vmin = min(min(RateFoxP2.flatten()), min(RateDec.flatten()), min(RateInc.flatten()))
     vmax = max(max(RateFoxP2.flatten()), max(RateDec.flatten()), max(RateInc.flatten()))

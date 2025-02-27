@@ -46,6 +46,7 @@ for file in files:
     SpikesList = []
     SpikeDecre = []
     SpikeIncre = []
+    SpikeBackground = []
 
     for i in FoxP2:
         Spiketimes = SpikeTimes[np.argwhere(SpikeIds == i).astype(int)].flatten()
@@ -63,16 +64,36 @@ for file in files:
         except:
             SpiketimesIncre = []
 
+        try:
+            SpiketimesBackground = np.sort([i for i in data['net']['pops']['ExtraInputs_%d' % i]['tags']['spkTimes']])
+        except:
+            SpiketimesBackground = []
+
         SpikeDecre.append(SpiketimesDecre)
         SpikeIncre.append(SpiketimesIncre)
+        SpikeBackground.append(SpiketimesBackground)
 
     SpikeFoxP2 = np.array(SpikesList, dtype=object)
     SpikeDecre = np.array(SpikeDecre, dtype=object)
     SpikeIncre = np.array(SpikeIncre, dtype=object)
+    SpikeBackground = np.array(SpikeBackground, dtype=object)
 
     dataDict[FileName]['SpikeFoxP2'] = SpikeFoxP2
     dataDict[FileName]['SpikeDecre'] = SpikeDecre
     dataDict[FileName]['SpikeIncre'] = SpikeIncre
+    dataDict[FileName]['SpikeBackground'] = SpikeBackground
+
+    Impedance = []
+    Time = []
+    for key, value in data['simData']['Impedance'].items():
+        Impedance.append(value)
+        Time.append(float(key))
+    Impedance = np.array(Impedance)
+    Time = np.array(Time)
+
+    dataDict[FileName]['Impedance']={}
+    dataDict[FileName]['Impedance']['Value'] = Impedance
+    dataDict[FileName]['Impedance']['Time'] = Time
 
 with open("results/SimSpikesDepol%s.pkl" % DepolBlock, 'wb') as f:
     pickle.dump(dataDict, f)

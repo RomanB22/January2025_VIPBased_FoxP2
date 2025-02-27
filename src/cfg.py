@@ -4,7 +4,7 @@ from netpyne.batchtools import specs
 cfg = specs.SimConfig()
 
 cfg.preStim = 1800
-cfg.postStim = 1800
+cfg.postStim = 2000
 cfg.duration = cfg.preStim + cfg.postStim
 cfg.GoNoGo = 'Go'
 cfg.Condition = 'InVivo'+'_'+cfg.GoNoGo
@@ -26,7 +26,7 @@ cfg.synsPerConn = 1
 #------------------------------------------------------------------------------
 cfg.dt = 0.1
 cfg.v_init = -86
-cfg.saveInterval = 100
+cfg.saveInterval = 50
 cfg.seeds = {'conn': 4321, 'stim': 1234, 'loc': 4321}
 cfg.hParams = {'celsius': 34, 'v_init': cfg.v_init}
 cfg.verbose = 0
