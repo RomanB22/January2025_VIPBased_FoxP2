@@ -16,192 +16,219 @@ import os
 # ---------------------------------------------------------------------------------------------- #
 # -----                              f-I curve calibration                                ------ #
 # ---------------------------------------------------------------------------------------------- #
-def evolCellFoxP2(algo='optuna', min=0.9, max=1.1, depolBlockModel=True):
+def evolCellFoxP2(algo='optuna', min=0.9, max=1.1):
     # parameters space to explore
     # min and max are the percentage variation for the limits of the search space.
     # TunedParams are based on previous optimization using 'evol' algorithm
     params = specs.ODict()
-    tunedParamsNoDepol = {
-        "ori1": {
-            "Nafcr": {
-                "gnafbar": 0.03034295244617426
+    tunedParams = {
+            "ori1": {
+                "IKscr": {
+                    "gKsbar": 0.0
+                },
+                "Nafcr": {
+                    "gnafbar": 0.033555847038423514,
+                    "taus": 211.23700071307496
+                },
+                "Ra": 155.83389080881165,
+                "cancr": {
+                    "gcabar": 0.0
+                },
+                "cm": 1.0451442563212505,
+                "iCcr": {
+                    "gkcbar": 0.0
+                },
+                "kdrcr": {
+                    "gkdrbar": 0.007147618107147519,
+                    "valf": -11.981651973315863
+                },
+                "pas": {
+                    "e": -62.82994891348203,
+                    "g": 4.897617432045613e-05
+                }
             },
-            "Ra": 101.31773619425941,
-            "cm": 1.3956569521774433,
-            "kdrcr": {
-                "gkdrbar": 0.006289320975996004
+            "ori2": {
+                "IKscr": {
+                    "gKsbar": 0.0
+                },
+                "Nafcr": {
+                    "gnafbar": 0.04305241587483605,
+                    "taus": 211.07999148245977
+                },
+                "Ra": 294.6369875291328,
+                "cancr": {
+                    "gcabar": 0.0
+                },
+                "cm": 0.9823946059056765,
+                "iCcr": {
+                    "gkcbar": 0.0
+                },
+                "kdrcr": {
+                    "gkdrbar": 0.001995905733126572,
+                    "valf": -12.004808794030545
+                },
+                "pas": {
+                    "e": -77.3094379486532,
+                    "g": 5.6198048184593156e-05
+                }
             },
-            "pas": {
-                "e": -54.156581525079,
-                "g": 5.597266724018472e-06
-            }
-        },
-        "ori2": {
-            "Nafcr": {
-                "gnafbar": 0.03600299884268208
+            "rad1": {
+                "IKscr": {
+                    "gKsbar": 0.0
+                },
+                "Nafcr": {
+                    "gnafbar": 0.03617300077643632,
+                    "taus": 211.50728710504103
+                },
+                "Ra": 247.4877878165534,
+                "cancr": {
+                    "gcabar": 0.0
+                },
+                "cm": 0.7979100709977925,
+                "iCcr": {
+                    "gkcbar": 0.0
+                },
+                "kdrcr": {
+                    "gkdrbar": 0.0030197298055870815,
+                    "valf": -14.292786550831941
+                },
+                "pas": {
+                    "e": -43.18823478422753,
+                    "g": 4.489207710979671e-05
+                }
             },
-            "Ra": 126.37477623801631,
-            "cm": 2.255656916826277,
-            "kdrcr": {
-                "gkdrbar": 0.011491005215890186
+            "rad2": {
+                "IKscr": {
+                    "gKsbar": 0.0
+                },
+                "Nafcr": {
+                    "gnafbar": 0.0075547270702817915,
+                    "taus": 212.0558493893737
+                },
+                "Ra": 116.66549376685347,
+                "cancr": {
+                    "gcabar": 0.0
+                },
+                "cm": 1.2054432876541832,
+                "iCcr": {
+                    "gkcbar": 0.0
+                },
+                "kdrcr": {
+                    "gkdrbar": 0.006676979378995631,
+                    "valf": -12.509171736433393
+                },
+                "pas": {
+                    "e": -52.16771712825026,
+                    "g": 5.663964256510521e-05
+                }
             },
-            "pas": {
-                "e": -58.61827939019876,
-                "g": 1.3667505345815849e-05
-            }
-        },
-        "rad1": {
-            "Nafcr": {
-                "gnafbar": 0.09603646194911217
-            },
-            "Ra": 109.04301401188185,
-            "cm": 2.86004280843973,
-            "kdrcr": {
-                "gkdrbar": 0.014671498027503952
-            },
-            "pas": {
-                "e": -69.94639485920993,
-                "g": 9.145445600433023e-05
-            }
-        },
-        "rad2": {
-            "Nafcr": {
-                "gnafbar": 0.12117486083039207
-            },
-            "Ra": 105.33290861536801,
-            "cm": 1.9340649628033502,
-            "kdrcr": {
-                "gkdrbar": 0.011526056544032385
-            },
-            "pas": {
-                "e": -69.1936245704239,
-                "g": 5.85743110096051e-05
-            }
-        },
-        "soma": {
-            "IKscr": {
-                "gKsbar": 0.005537720343812399
-            },
-            "Nafcr": {
-                "gnafbar": 0.00728963139348009
-            },
-            "Ra": 116.63071421583007,
-            "cancr": {
-                "gcabar": 0.009376817443733148
-            },
-            "cm": 1.8914506365455446,
-            "iCcr": {
-                "gkcbar": 0.00010852220046602783
-            },
-            "kdrcr": {
-                "gkdrbar": 0.01763104562077111
-            },
-            "pas": {
-                "e": -68.58434697800882,
-                "g": 4.7411099882163505e-06
-            }
-        }
-    }
-    tunedParamsDepol = {
-        "ori1": {
-            "Nafcr": {
-                "gnafbar": 0.04082054365113535
-            },
-            "Ra": 112.71219260317795,
-            "cm": 1.7386428700050718,
-            "kdrcr": {
-                "gkdrbar": 0.00795423100785642
-            },
-            "pas": {
-                "e": -62.37229768558754,
-                "g": 4.798599296528991e-06
-            }
-        },
-        "ori2": {
-            "Nafcr": {
-                "gnafbar": 0.025482710904591584
-            },
-            "Ra": 134.49107256418512,
-            "cm": 2.5234892981051105,
-            "kdrcr": {
-                "gkdrbar": 0.009008968739102362
-            },
-            "pas": {
-                "e": -43.89233403429573,
-                "g": 1.1620321558477796e-05
-            }
-        },
-        "rad1": {
-            "Nafcr": {
-                "gnafbar": 0.11257336429562881
-            },
-            "Ra": 108.58316821600586,
-            "cm": 2.7101073300878955,
-            "kdrcr": {
-                "gkdrbar": 0.01347170651215512
-            },
-            "pas": {
-                "e": -78.27355053698867,
-                "g": 9.954710083881613e-05
-            }
-        },
-        "rad2": {
-            "Nafcr": {
-                "gnafbar": 0.10999874642906309
-            },
-            "Ra": 102.72694229979082,
-            "cm": 1.8347836187385222,
-            "kdrcr": {
-                "gkdrbar": 0.010863187066404151
-            },
-            "pas": {
-                "e": -64.03154656423675,
-                "g": 6.790708995371536e-05
-            }
-        },
-        "soma": {
-            "IKscr": {
-                "gKsbar": 0.007200984292049982
-            },
-            "Nafcr": {
-                "gnafbar": 0.007048106046995259
-            },
-            "Ra": 83.22022299421958,
-            "cancr": {
-                "gcabar": 0.007336735493465247
-            },
-            "cm": 1.8665330834930678,
-            "iCcr": {
-                "gkcbar": 9.857697126917098e-05
-            },
-            "kdrcr": {
-                "gkdrbar": 0.011213668755840124
-            },
-            "pas": {
-                "e": -55.01023056726649,
-                "g": 4.96316748340829e-06
+            "soma": {
+                "IKscr": {
+                    "gKsbar": 0.0
+                },
+                "Nafcr": {
+                    "gnafbar": 0.02864511425205868,
+                    "taus": 213.82290743717624
+                },
+                "Ra": 161.86087110491243,
+                "cancr": {
+                    "gcabar": 0.001272339818569152
+                },
+                "cm": 0.19000290878151518,
+                "iCcr": {
+                    "gkcbar": 0.002682049431287712
+                },
+                "kdrcr": {
+                    "gkdrbar": 0.0027081909939373934,
+                    "valf": -12.927293984218267
+                },
+                "pas": {
+                    "e": -81.53814161804004,
+                    "g": 2.7926922393979932e-05
+                }
             }
         }
-    }
-    if depolBlockModel:
-        tunedParams = tunedParamsDepol
-    else:
-        tunedParams = tunedParamsNoDepol
+
+    # valf = -13#-35
+    # taus = 1000
+    # factoIkslow_soma = 0
+    # factoCalcium_soma = 1
+    # factoIkslow_dend = 0
+    # factoCalcium_dend = 0
+    #
+    # params[('tune', 'soma', 'Nafcr', 'gnafbar')] = [1e-3, 5e-2]
+    # params[('tune', 'soma', 'Nafcr', 'taus')] = [taus*0.99, taus*1.01]
+    #
+    # params[('tune', 'soma', 'kdrcr', 'gkdrbar')] = [1e-3, 1e-2]
+    # params[('tune', 'soma', 'kdrcr', 'valf')] = [valf*1.1, valf*0.9]
+    #
+    # params[('tune', 'soma', 'IKscr', 'gKsbar')] = [factoIkslow_soma*1e-5, factoIkslow_soma*1e-4]
+    #
+    # params[('tune', 'soma', 'iCcr', 'gkcbar')] = [factoCalcium_soma*1e-3, factoCalcium_soma*1e-2]
+    #
+    # params[('tune', 'soma', 'cancr', 'gcabar')] = [factoCalcium_soma*1e-3, factoCalcium_soma*1e-2]
+    #
+    # params[('tune', 'soma', 'pas', 'e')] = [-90, -40]
+    # params[('tune', 'soma', 'cm')] = [0.1, 0.5]
+    # params[('tune', 'soma', 'Ra')] = [100, 300]
+    # params[('tune', 'soma', 'pas', 'g')] = [1e-5, 4e-5]
+    #
+    # for sec in ['rad1', 'rad2', 'ori1', 'ori2']:
+    #     params[('tune', sec, 'Nafcr', 'gnafbar')] = [1e-3, 5e-2]
+    #     params[('tune', sec, 'Nafcr', 'taus')] = [taus*0.99, taus*1.01]
+    #
+    #     params[('tune', sec, 'kdrcr', 'gkdrbar')] = [1e-3, 1e-2]
+    #     params[('tune', sec, 'kdrcr', 'valf')] = [valf*1.1, valf*0.9]
+    #
+    #     params[('tune', sec, 'IKscr', 'gKsbar')] = [factoIkslow_dend*1e-5, factoIkslow_dend*1e-4]
+    #
+    #     params[('tune', sec, 'iCcr', 'gkcbar')] = [factoCalcium_dend*1e-3, factoCalcium_dend*1e-2]
+    #
+    #     params[('tune', sec, 'cancr', 'gcabar')] = [factoCalcium_dend*1e-3, factoCalcium_dend*1e-2]
+    #
+    #     params[('tune', sec, 'pas', 'e')] = [-90, -40]
+    #     params[('tune', sec, 'cm')] = [0.6, 1.3]
+    #     params[('tune', sec, 'Ra')] = [100, 300]
+    #     params[('tune', sec, 'pas', 'g')] = [4e-5, 7e-5]
+
+    offset = 0
+    for sec in ['soma', 'rad1', 'rad2', 'ori1', 'ori2']:
+        tunedParams[sec]['Ra'] = 150
 
     params[('tune', 'soma', 'Nafcr', 'gnafbar')] = [tunedParams['soma']['Nafcr']['gnafbar']*min, tunedParams['soma']['Nafcr']['gnafbar']*max]
+    params[('tune', 'soma', 'Nafcr', 'taus')] = [tunedParams['soma']['Nafcr']['taus']*min, tunedParams['soma']['Nafcr']['taus']*max]
+
     params[('tune', 'soma', 'kdrcr', 'gkdrbar')] = [tunedParams['soma']['kdrcr']['gkdrbar']*min, tunedParams['soma']['kdrcr']['gkdrbar']*max]
+    params[('tune', 'soma', 'kdrcr', 'valf')] = [tunedParams['soma']['kdrcr']['valf']*max, tunedParams['soma']['kdrcr']['valf']*min]
+
     params[('tune', 'soma', 'IKscr', 'gKsbar')] = [tunedParams['soma']['IKscr']['gKsbar']*min, tunedParams['soma']['IKscr']['gKsbar']*max]
+
     params[('tune', 'soma', 'iCcr', 'gkcbar')] = [tunedParams['soma']['iCcr']['gkcbar']*min, tunedParams['soma']['iCcr']['gkcbar']*max]
+
     params[('tune', 'soma', 'cancr', 'gcabar')] = [tunedParams['soma']['cancr']['gcabar']*min, tunedParams['soma']['cancr']['gcabar']*max]
-    params[('tune', 'soma', 'pas', 'e')] = [tunedParams['soma']['pas']['e']*max, tunedParams['soma']['pas']['e']*min]
+
+    params[('tune', 'soma', 'pas', 'e')] = [tunedParams['soma']['pas']['e']*max-offset, tunedParams['soma']['pas']['e']*min-offset]
     params[('tune', 'soma', 'cm')] = [tunedParams['soma']['cm']*min, tunedParams['soma']['cm']*max]
     params[('tune', 'soma', 'Ra')] = [tunedParams['soma']['Ra']*min, tunedParams['soma']['Ra']*max]
     params[('tune', 'soma', 'pas', 'g')] = [tunedParams['soma']['pas']['g']*min, tunedParams['soma']['pas']['g']*max]
 
     for sec in ['rad1', 'rad2', 'ori1', 'ori2']:
         params[('tune', sec, 'Nafcr', 'gnafbar')] = [tunedParams[sec]['Nafcr']['gnafbar']*min, tunedParams[sec]['Nafcr']['gnafbar']*max]
+        params[('tune', sec, 'Nafcr', 'taus')] = [tunedParams[sec]['Nafcr']['taus']*min, tunedParams[sec]['Nafcr']['taus']*max]
+
         params[('tune', sec, 'kdrcr', 'gkdrbar')] = [tunedParams[sec]['kdrcr']['gkdrbar']*min, tunedParams[sec]['kdrcr']['gkdrbar']*max]
-        params[('tune', sec, 'pas', 'e')] = [tunedParams[sec]['pas']['e']*max, tunedParams[sec]['pas']['e']*min]
+        params[('tune', sec, 'kdrcr', 'valf')] = [tunedParams[sec]['kdrcr']['valf']*max, tunedParams[sec]['kdrcr']['valf']*min]
+
+        params[('tune', sec, 'IKscr', 'gKsbar')] = [tunedParams[sec]['IKscr']['gKsbar'] * min,
+                                                       tunedParams[sec]['IKscr']['gKsbar'] * max]
+
+        params[('tune', sec, 'iCcr', 'gkcbar')] = [tunedParams[sec]['iCcr']['gkcbar'] * min,
+                                                      tunedParams[sec]['iCcr']['gkcbar'] * max]
+
+        params[('tune', sec, 'cancr', 'gcabar')] = [tunedParams[sec]['cancr']['gcabar'] * min,
+                                                       tunedParams[sec]['cancr']['gcabar'] * max]
+
+        params[('tune', sec, 'pas', 'e')] = [tunedParams[sec]['pas']['e']*max-offset, tunedParams[sec]['pas']['e']*min-offset]
         params[('tune', sec, 'cm')] = [tunedParams[sec]['cm']*min, tunedParams[sec]['cm']*max]
         params[('tune', sec, 'Ra')] = [tunedParams[sec]['Ra']*min, tunedParams[sec]['Ra']*max]
         params[('tune', sec, 'pas', 'g')] = [tunedParams[sec]['pas']['g']*min, tunedParams[sec]['pas']['g']*max]
@@ -209,29 +236,28 @@ def evolCellFoxP2(algo='optuna', min=0.9, max=1.1, depolBlockModel=True):
     # initial cfg set up
     initCfg = {} # specs.ODict()
     initCfg['saveDataInclude'] = ['simData']
-    initCfg['depolBlockModel'] = depolBlockModel
     # initCfg[('analysis', 'plotTraces')] = {}
 
     for k, v in params.items():
         initCfg[k] = v[0]  # initialize params in cfg so they can be modified
 
     # Fitting average fI curve
-    # with open('cells/AverageProperties.pkl', 'rb') as f:
-    #     average_props = pickle.load(f)
-    # steps = 1
+    with open('cells/AverageProperties.pkl', 'rb') as f:
+        average_props = pickle.load(f)
+    steps = 1
     # end=1
     # amps = average_props['f-I Curve'][0][0][::steps]
-    # targetRates = average_props['f-I Curve'][0][1][::steps]
+    targetRates = average_props['f-I Curve'][0][1][::steps]
     # targetRatesStd = average_props['f-I Curve Std'][0][1][::steps]
     # amps = [10 / 1000. * i for i in range(61)]
 
     # Fitting Bikoff 2016 published trace
-    targetRates = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2.298850575, 6.896551724, 9.195402299,
-                   11.49425287, 13.79310345, 16.09195402, 16.09195402, 18.3908046, 20.68965517, 22.98850575,
-                   22.98850575, 25.28735632, 27.5862069, 27.5862069, 27.5862069, 29.88505747, 32.18390805, 32.18390805,
-                   34.48275862, 36.7816092, 36.7816092, 39.08045977, 39.08045977, 39.08045977, 41.37931034, 41.37931034,
-                   43.67816092, 43.67816092, 45.97701149, 45.97701149, 45.97701149, 48.27586207, 48.27586207,
-                   50.57471264, 50.57471264, 50.57471264, 52.87356322, 52.87356322, 52.87356322, 52.87356322]
+    # targetRates = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2.298850575, 6.896551724, 9.195402299,
+    #                11.49425287, 13.79310345, 16.09195402, 16.09195402, 18.3908046, 20.68965517, 22.98850575,
+    #                22.98850575, 25.28735632, 27.5862069, 27.5862069, 27.5862069, 29.88505747, 32.18390805, 32.18390805,
+    #                34.48275862, 36.7816092, 36.7816092, 39.08045977, 39.08045977, 39.08045977, 41.37931034, 41.37931034,
+    #                43.67816092, 43.67816092, 45.97701149, 45.97701149, 45.97701149, 48.27586207, 48.27586207,
+    #                50.57471264, 50.57471264, 50.57471264, 52.87356322, 52.87356322, 52.87356322, 52.87356322]
 
     # fitness function
     fitnessFuncArgs = {}
@@ -243,7 +269,8 @@ def evolCellFoxP2(algo='optuna', min=0.9, max=1.1, depolBlockModel=True):
         diffRates = [abs(x-t) for x,t in zip(simData['fI'], targetRates)]
         fitness = np.mean(diffRates)
         # To avoid very negative membrane resting potentials
-        if np.min(simData['V_soma']['cell_0'])<-91: fitness = kwargs['maxFitness']
+        if np.min(simData['V_soma']['cell_0'])<(-85*1.1) or np.min(simData['V_soma']['cell_0'])>(-85*0.9): fitness = kwargs['maxFitness']
+        if np.sum([x for x in simData['fI']])<10: fitness = kwargs['maxFitness']
         # TODO: Add extra high amplitude to explore depolarization blockade
 
         print(' Candidate rates: ', simData['fI'])
@@ -326,9 +353,10 @@ def setRunCfg(b, type='mpi_bulletin'):
 if __name__ == '__main__':
     # Single cell calibration
     algo='optuna'
-    depolBlockModel = False
-    b = evolCellFoxP2(algo=algo, depolBlockModel=depolBlockModel) # Choose optimization algorithm: 'evol', 'optuna'
-    b.batchLabel = '%sfI_Jan2025_Depol%s' % (algo, depolBlockModel)
+    b = evolCellFoxP2(algo=algo, min=0.9, max=1.1) # Choose optimization algorithm: 'evol', 'optuna'
+    b.batchLabel = '%sfI_Jan2025_Final_2' % algo
     b.saveFolder = 'data/' + b.batchLabel
     setRunCfg(b, 'mpi_bulletin')
     b.run()  # run batch
+
+    #LAST THING I DID WAS TO ADD IKSCR INN DENDRITES-MAYBE NOT GOOD IDEA

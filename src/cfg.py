@@ -3,11 +3,12 @@ from netpyne.batchtools import specs
 ### config ###
 cfg = specs.SimConfig()
 
-cfg.preStim = 1800
-cfg.postStim = 2000
+cfg.preStim = 1800 #1800
+cfg.postStim = 2000 #2000
 cfg.duration = cfg.preStim + cfg.postStim
 cfg.GoNoGo = 'Go'
-cfg.Condition = 'InVivo'+'_'+cfg.GoNoGo
+cfg.Condition = 'NoVar'+'_'+cfg.GoNoGo
+# ['InVivo', 'OnlyIncre', 'MirrorDecre', 'LowVar', 'HighVar', 'NoVar']
 # Membrane time constant of model is actually larger than experiment, thus for longer synapses,
 # membrane will decay slower to resting membrane potential, which is a problem
 # We compensate this effect by changing the taus to make synapses faster.
@@ -19,8 +20,25 @@ cfg.IncDec = (2, 6)
 cfg.IncreConn = cfg.IncDec[0]
 cfg.DecreConn = cfg.IncDec[1]
 cfg.NotChangingConn = 0
-cfg.numTrials = 300
+cfg.numTrials = 500
 cfg.synsPerConn = 1
+
+cfg.hocFile = 'cells/FoxP2_Jan2025.hoc'
+
+cfg.factorAmp = 1
+cfg.factorWidth = 1
+cfg.Fitting = 'False'
+cfg.TwoStims = 'False'
+cfg.SecondStimDelay = 500
+cfg.ConstantArea = 'False'
+cfg.blockNa = 'False'
+
+if cfg.TwoStims == 'False':
+    cfg.SecondStimDelay = ''
+
+if cfg.Fitting == 'False':
+    cfg.ConstantArea = ''
+
 #------------------------------------------------------------------------------
 # Run parameters
 #------------------------------------------------------------------------------
@@ -40,8 +58,7 @@ cfg.includeParamsLabel = True
 cfg.printPopAvgRates = True
 cfg.checkErrors = True
 cfg.connRandomSecFromList = False
-cfg.depolBlockModel = 'False'
-cfg.hocFile = 'cells/FoxP2_Jan2025.hoc'
+
 #------------------------------------------------------------------------------
 # Recording
 #------------------------------------------------------------------------------
@@ -72,7 +89,7 @@ cfg.IAmp = 0  # nA
 cfg.IClamp1 = {'pop': 'FoxP2', 'sec': 'soma', 'loc': 0.5, 'dur': cfg.duration, 'amp': cfg.IAmp, 'start': 0}
 
 cfg.addVecStim = True
-cfg.AMPAWeight = 0.004 # 0.004 for 200 pA of EPSC. It generates around 20 mV of EPSP
+cfg.AMPAWeight = 0.00025 # 0.004 for 200 pA of EPSC. It generates around 20 mV of EPSP
 cfg.AMPANMDAWeightsIncre = cfg.AMPAWeight
 cfg.AMPANMDAWeightsDecre = cfg.AMPAWeight
 cfg.AMPANMDAWeightsNotChanging = cfg.AMPAWeight
@@ -80,7 +97,7 @@ cfg.AMPANMDAWeightsNotChanging = cfg.AMPAWeight
 # Since Rin in the model is twice as large than experiment, we use half of the weights,
 # to compensate that effect on the membrane potential
 
-cfg.simLabel = 'FoxP2_VecStim_%s_%s_%s_Depol%s/FoxP2' % (cfg.Condition, cfg.IncreConn, cfg.DecreConn, cfg.depolBlockModel)
+cfg.simLabel = 'FoxP2_%s_%s_%s_A%s_W%s_Fit%s_2St%s_%s_Area%s/FoxP2' % (cfg.Condition, cfg.IncreConn, cfg.DecreConn, cfg.factorAmp, cfg.factorWidth, cfg.Fitting, cfg.TwoStims, cfg.SecondStimDelay, cfg.ConstantArea)
 
 cfg.somaProb = 0.2
 cfg.delay = 3.8
@@ -98,8 +115,10 @@ cfg.NetStimNumber = 1e10  # Max number of spikes generated (default = 1e12)
 cfg.NetStimDelay = cfg.delay
 
 #####################
-transitory = 800
-timeRange = [transitory, cfg.duration-100]
+transitory = 300 #600
+# if cfg.TwoStims: transitory = cfg.SecondStimDelay
+
+timeRange = [transitory, cfg.duration] #-100]
 cfg.format = 'png'
 
 cfg.analysis['plotTraces'] = {'include': [('FoxP2', i) for i in range(5)], 'timeRange': timeRange,

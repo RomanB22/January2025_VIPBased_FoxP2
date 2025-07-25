@@ -38,48 +38,11 @@ create ori1     // create oriProx1, oriMed1, oriDist1
 create ori2     // create oriProx2, oriMed2, oriDist2
 
 proc topol() { local i
-    connect rad1(0), soma(0) // connect radProx1(0), soma(0)
-    // connect radMed1(0),  radProx1(1)
-    // connect radDist1(0), radMed1(1)
-    // connect lmM1(0),     radDist1(1)
-    // connect lmt1(0),     lmM1(1)
-    connect rad2(0), soma(1) // connect radProx2(0), soma(1)
-    // connect radMed2(0),  radProx2(1)
-    // connect radDist2(0), radMed2(1)
-    // connect lmM2(0),     radDist2(1)
-    // connect lmt2(0),     lmM2(1)
-    connect ori1(0), soma(0) // connect oriProx1(0), soma(0)
-    // connect oriMed1(0),  oriProx1(1)
-    // connect oriDist1(0), oriMed1(1)
-    connect ori2(0), soma(1) // connect oriProx2(0), soma(1)
-    // connect oriMed2(0),  oriProx2(1)
-    // connect oriDist2(0), oriMed2(1)
-    //basic_shape()
+    connect rad1(0), soma(0)
+    connect rad2(0), soma(1)
+    connect ori1(0), soma(0)
+    connect ori2(0), soma(1)
 }
-
-//proc basic_shape() {
-    //soma     { pt3dclear() pt3dadd(0, 0, 0, 10)      pt3dadd(15, 0, 0, 10)        }
-    //rad1     { pt3dclear() pt3dadd()  pt3dadd()  }
-    //rad2     { pt3dclear() pt3dadd()  pt3dadd()  }
-    //ori1     { pt3dclear() pt3dadd()  pt3dadd()  }
-    //ori2     { pt3dclear() pt3dadd()  pt3dadd() }
-    //radProx1 { pt3dclear() pt3dadd(0, 0, 0, 4)       pt3dadd(-7, 7.50, 0, 4)      }
-    //radMed1  { pt3dclear() pt3dadd(-14, 15, 0, 3)    pt3dadd(-21.5, 22.5, 0, 3)   }
-    //radDist1 { pt3dclear() pt3dadd(-29, 30, 0, 2)    pt3dadd(-36.5, 37.5, 0, 2)   }
-    //lmM1     { pt3dclear() pt3dadd(-44, 45, 0, 1.5)  pt3dadd(-51.5, 52.5, 0, 1.5) }
-    //lmt1     { pt3dclear() pt3dadd(-59, 60, 0, 1)    pt3dadd(-74, 75, 0, 1)       }
-    //radProx2 { pt3dclear() pt3dadd(15, 0, 0, 4)      pt3dadd(30, 15, 0, 4)        }
-    //radMed2  { pt3dclear() pt3dadd(45, 30, 0, 3)     pt3dadd(60, 45, 0, 3)        }
-    //radDist2 { pt3dclear() pt3dadd(75, 60, 0, 2)     pt3dadd(82.5, 67.5, 0, 2)    }
-    //lmM2     { pt3dclear() pt3dadd(90, 75, 0, 1.5)   pt3dadd(97.5, 82.5, 0, 1.5)  }
-    //lmt2     { pt3dclear() pt3dadd(105, 90, 0, 1)    pt3dadd(112.50, 97.5, 0, 1)  }
-    //oriProx1 { pt3dclear() pt3dadd(0, 0, 0, 2)       pt3dadd(-14.5, -14.5, 0, 2)  }
-    //oriMed1  { pt3dclear() pt3dadd(-29, -29, 0, 1.5) pt3dadd(-44, -44, 0, 1.5)    }
-    //oriDist1 { pt3dclear() pt3dadd(-59, -59, 0, 1)   pt3dadd(-74, -74, 0, 1)      }
-    //oriProx2 { pt3dclear() pt3dadd(15, 0, 0, 2)      pt3dadd(30, -14.5, 0, 2)     }
-    //oriMed2  { pt3dclear() pt3dadd(45, -29, 0, 1.5)  pt3dadd(60, -44, 0, 1.5)     }
-    //oriDist2 { pt3dclear() pt3dadd(75, -59, 0, 1)    pt3dadd(90, -74, 0, 1)       }
-//}
 
 objref all
 proc subsets() { local i
@@ -90,22 +53,6 @@ proc subsets() { local i
     rad2     all.append()
     ori1     all.append()
     ori2     all.append()
-    //radProx1 all.append()
-    //radMed1  all.append()
-    //radDist1 all.append()
-    //lmM1     all.append()
-    //lmt1     all.append()
-    //radProx2 all.append()
-    //radMed2  all.append()
-    //radDist2 all.append()
-    //lmM2     all.append()
-    //lmt2     all.append()
-    //oriProx1 all.append()
-    //oriMed1  all.append()
-    //oriDist1 all.append()
-    //oriProx2 all.append()
-    //oriMed2  all.append()
-    //oriDist2 all.append()
 }
 
 proc geom() {
@@ -115,22 +62,6 @@ proc geom() {
     rad2     {  L = 300  diam = 3   }
     ori1     {  L = 150  diam = 1.5 }
     ori2     {  L = 150  diam = 1.5 }
-    //radProx1 {  L = 50   diam = 4   }
-    //radMed1  {  L = 50   diam = 3   }
-    //radDist1 {  L = 100  diam = 2   }
-    //lmM1     {  L = 50   diam = 1.5 }
-    //lmt1     {  L = 50   diam = 1   }
-    //radProx2 {  L = 50   diam = 4   }
-    //radMed2  {  L = 50   diam = 3   }
-    //radDist2 {  L = 100  diam = 2   }
-    //lmM2     {  L = 50   diam = 1.5 }
-    //lmt2     {  L = 50   diam = 1   }
-    //oriProx1 {  L = 50   diam = 2   }
-    //oriMed1  {  L = 50   diam = 1.5 }
-    //oriDist1 {  L = 50   diam = 1   }
-    //oriProx2 {  L = 50   diam = 2   }
-    //oriMed2  {  L = 50   diam = 1.5 }
-    //oriDist2 {  L = 50   diam = 1   }
 }
 
 external lambda_f
@@ -139,106 +70,198 @@ proc geom_nseg() {
 }
 
 proc biophys() {
-    valf = -13 // -13 (old), -29 (depol block)
-    soma {
-        soma_nafcr   = 0.00792241108927046
-        soma_kdrcr   = 0.017264335382227255
-        soma_Kslowcr = 0.004999550461485062
-        soma_iCcr    = 0.00010672629071301523
-        soma_cancr   = 0.009041149398789038
-        v_initcr     = -66.36873979773242
+ori1_IKscr_gKsbar = 0.0
+ori1_Nafcr_gnafbar = 0.03620051664945352
+ori1_Nafcr_taus = 209.6402667869049
+ori1_Ra = 156.48488866793994
+ori1_cancr_gcabar = 0.0
+ori1_cm = 0.9862606024212732
+ori1_iCcr_gkcbar = 0.0
+ori1_kdrcr_gkdrbar = 0.007620749947248059
+ori1_kdrcr_valf = -11.238475569220446
+ori1_pas_e = -68.94520281296299
+ori1_pas_g = 4.9690008977514214e-05
+ori2_IKscr_gKsbar = 0.0
+ori2_Nafcr_gnafbar = 0.04637756634393874
+ori2_Nafcr_taus = 195.75000066315047
+ori2_Ra = 149.16544292366643
+ori2_cancr_gcabar = 0.0
+ori2_cm = 0.894380975574114
+ori2_iCcr_gkcbar = 0.0
+ori2_kdrcr_gkdrbar = 0.001989049667110744
+ori2_kdrcr_valf = -11.991581787070174
+ori2_pas_e = -82.55328942703039
+ori2_pas_g = 5.9458077693878924e-05
+rad1_IKscr_gKsbar = 0.0
+rad1_Nafcr_gnafbar = 0.0383372229380183
+rad1_Nafcr_taus = 200.03659251492624
+rad1_Ra = 139.1751560040922
+rad1_cancr_gcabar = 0.0
+rad1_cm = 0.7800140087280175
+rad1_iCcr_gkcbar = 0.0
+rad1_kdrcr_gkdrbar = 0.0027802038807920797
+rad1_kdrcr_valf = -15.416421652927266
+rad1_pas_e = -39.834587008644164
+rad1_pas_g = 4.512702470327495e-05
+rad2_IKscr_gKsbar = 0.0
+rad2_Nafcr_gnafbar = 0.007115974529340965
+rad2_Nafcr_taus = 213.42669283460768
+rad2_Ra = 141.7078212258808
+rad2_cancr_gcabar = 0.0
+rad2_cm = 1.207283724387104
+rad2_iCcr_gkcbar = 0.0
+rad2_kdrcr_gkdrbar = 0.006604210608652641
+rad2_kdrcr_valf = -13.073161566111239
+rad2_pas_e = -53.397303942965394
+rad2_pas_g = 5.481073970515329e-05
+soma_IKscr_gKsbar = 0.0
+soma_Nafcr_gnafbar = 0.029258105672312417
+soma_Nafcr_taus = 208.46441586035667
+soma_Ra = 135.11537924391862
+soma_cancr_gcabar = 0.001200673446931951
+soma_cm = 0.1762111618060807
+soma_iCcr_gkcbar = 0.002739309869536659
+soma_kdrcr_gkdrbar = 0.002731219341601073
+soma_kdrcr_valf = -11.792996540097391
+soma_pas_e = -74.63132881332893
+soma_pas_g = 2.98701167732318e-05
 
+    soma {
        insert pas
-       cm       = 2.0750330942221358           //microF/cm2
-       g_pas    = 4.332376755670617e-06
-       e_pas    = v_initcr
-       Ra       = 115.43187325932695
+       cm  = soma_cm           //microF/cm2
+       g_pas    = soma_pas_g
+       e_pas    = soma_pas_e
+       Ra       = soma_Ra
 
        insert Nafcr
-       gnafbar_Nafcr= soma_nafcr
+       gnafbar_Nafcr= soma_Nafcr_gnafbar
+       taus_Nafcr = soma_Nafcr_taus
 
        //insert hin // It is a detail to reproduce the return to baseline better
        //gbar_hin = 5e-5
 
        insert kdrcr
-       gkdrbar_kdrcr= soma_kdrcr
-       valf_kdrcr=valf
+       gkdrbar_kdrcr= soma_kdrcr_gkdrbar
+       valf_kdrcr=soma_kdrcr_valf
 
        insert IKscr
-       gKsbar_IKscr= soma_Kslowcr
+       gKsbar_IKscr= soma_IKscr_gKsbar
 
        insert iCcr
-       gkcbar_iCcr= soma_iCcr
+       gkcbar_iCcr= soma_iCcr_gkcbar
 
        insert cancr
-       gcabar_cancr=soma_cancr
+       gcabar_cancr=soma_cancr_gcabar
 
        insert cadyn
-       // TO DO: cadyn_new, compile,insert, and verify the validation tests
     }
 
     rad1 {
        insert pas
-       cm       = 3.133558790101724           //microF/cm2
-       g_pas    = 9.211499195069896e-05
-       v_initcr = -72.61032815286347
-       e_pas    = v_initcr
-       Ra       = 111.19659944041622
+       cm       = rad1_cm           //microF/cm2
+       g_pas    = rad1_pas_g
+       e_pas    = rad1_pas_e
+       Ra       = rad1_Ra
 
        insert Nafcr
-       gnafbar_Nafcr = 0.09609176242393565
+       gnafbar_Nafcr= rad1_Nafcr_gnafbar
+       taus_Nafcr = rad1_Nafcr_taus
 
        insert kdrcr
-       gkdrbar_kdrcr = 0.016011530234952602
-       valf_kdrcr=valf
+       gkdrbar_kdrcr = rad1_kdrcr_gkdrbar
+       valf_kdrcr=rad1_kdrcr_valf
+
+       insert IKscr
+       gKsbar_IKscr= rad1_IKscr_gKsbar
+
+       insert iCcr
+       gkcbar_iCcr= rad1_iCcr_gkcbar
+
+       insert cancr
+       gcabar_cancr=rad1_cancr_gcabar
+
+       insert cadyn
     }
 
     rad2 {
        insert pas
-       cm       = 2.064580707959245         //microF/cm2
-       g_pas    = 6.254791049107461e-05
-       v_initcr = -69.99699610107999
-       e_pas    = v_initcr
-       Ra       = 111.76668505024826
+       cm       = rad2_cm         //microF/cm2
+       g_pas    = rad2_pas_g
+       e_pas    = rad2_pas_e
+       Ra       = rad2_Ra
 
        insert Nafcr
-       gnafbar_Nafcr = 0.12820290017177124
+       gnafbar_Nafcr= rad2_Nafcr_gnafbar
+       taus_Nafcr = rad2_Nafcr_taus
+
+       insert IKscr
+       gKsbar_IKscr= rad2_IKscr_gKsbar
 
        insert kdrcr
-       gkdrbar_kdrcr = 0.011384794197403585
-       valf_kdrcr=valf
+       gkdrbar_kdrcr = rad2_kdrcr_gkdrbar
+       valf_kdrcr=rad2_kdrcr_valf
+
+       insert iCcr
+       gkcbar_iCcr= rad2_iCcr_gkcbar
+
+       insert cancr
+       gcabar_cancr=rad2_cancr_gcabar
+
+       insert cadyn
     }
 
     ori1 {
        insert pas
-       cm       = 1.5176378820670497            //microF/cm2
-       g_pas    = 5.257002446478203e-06
-       v_initcr = -54.2289806909487
-       e_pas    = v_initcr
-       Ra       = 94.74718339461782
+       cm       = ori1_cm            //microF/cm2
+       g_pas    = ori1_pas_g
+       e_pas    = ori1_pas_e
+       Ra       = ori1_Ra
 
        insert Nafcr
-       gnafbar_Nafcr = 0.029965488148624903
+       gnafbar_Nafcr= ori1_Nafcr_gnafbar
+       taus_Nafcr = ori1_Nafcr_taus
 
        insert kdrcr
-       gkdrbar_kdrcr = 0.006694501704851497
-       valf_kdrcr=valf
+       gkdrbar_kdrcr = ori1_kdrcr_gkdrbar
+       valf_kdrcr=ori1_kdrcr_valf
+
+       insert IKscr
+       gKsbar_IKscr= ori1_IKscr_gKsbar
+
+       insert iCcr
+       gkcbar_iCcr= ori1_iCcr_gkcbar
+
+       insert cancr
+       gcabar_cancr= ori1_cancr_gcabar
+
+       insert cadyn
     }
 
     ori2 {
        insert pas
-       cm       = 2.15072603453916            //microF/cm2
-       g_pas    = 1.4278457683822263e-05
-       v_initcr = -63.62680070683853
-       e_pas    = v_initcr
-       Ra       = 132.73532224173897
+       cm       = ori2_cm            //microF/cm2
+       g_pas    = ori2_pas_g
+       e_pas    = ori2_pas_e
+       Ra       = ori2_Ra
 
        insert Nafcr
-       gnafbar_Nafcr = 0.038223933270564815
+       gnafbar_Nafcr= ori2_Nafcr_gnafbar
+       taus_Nafcr = ori2_Nafcr_taus
 
        insert kdrcr
-       gkdrbar_kdrcr = 0.010723434637928886
-       valf_kdrcr=valf
+       gkdrbar_kdrcr = ori2_kdrcr_gkdrbar
+       valf_kdrcr=ori2_kdrcr_valf
+
+       insert IKscr
+       gKsbar_IKscr= ori2_IKscr_gKsbar
+
+       insert iCcr
+       gkcbar_iCcr= ori2_iCcr_gkcbar
+
+       insert cancr
+       gcabar_cancr= ori2_cancr_gcabar
+
+       insert cadyn
     }
 
     forsec all {

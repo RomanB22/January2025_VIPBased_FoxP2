@@ -92,5 +92,6 @@ for key, value in dataDict.items():
         row = pd.DataFrame(dict, columns=columns)
         df = pd.concat([df, row], ignore_index=True)
 
+
 if saveDataFrame:
     df.to_pickle("results/DataDepol%s.pkl" % depolBlock)

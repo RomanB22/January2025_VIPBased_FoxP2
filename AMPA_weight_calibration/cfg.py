@@ -47,7 +47,7 @@ cfg.recordLFP = False #[[10, y, 90] for y in range(450, 1250, 100)]
 cfg.saveLFPCells = False
 cfg.ESynMech = 'AMPA'
 cfg.delay = 3.8
-cfg.NetStimWeight = 0.002 # 0.004 for 200 pA of EPSC. It generates around 20 mV of EPSP
+cfg.NetStimWeight = 0.00025 # 0.004 for 200 pA of EPSC. It generates around 20 mV of EPSP
 cfg.NetStimDelay = cfg.delay
 cfg.synsPerConn = 1
 # Membrane time constant of model is actually larger than experiment, thus for longer synapses,
@@ -80,7 +80,7 @@ cfg.saveCellConns = True
 #------------------------------------------------------------------------------
 cfg.addNetStim = True
 
-cfg.format = 'eps'
+cfg.format = 'png'
 
 timeRange = [cfg.duration/2-50, cfg.duration/2+100]
 cfg.analysis['plotTraces'] = {'include': ['FoxP2'], 'timeRange': timeRange, 'oneFigPer': 'cell',

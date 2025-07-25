@@ -28,7 +28,7 @@ except:
 #------------------------------------------------------------------------------
 # General connectivity parameters
 #------------------------------------------------------------------------------
-netParams.defaultThreshold = 0.0 # spike threshold, 10 mV is NetCon default, lower it for all cells
+netParams.defaultThreshold = cfg.spikeThreshold
 
 #------------------------------------------------------------------------------
 # Cell parameters
@@ -41,350 +41,272 @@ netParams.defaultThreshold = 0.0 # spike threshold, 10 mV is NetCon default, low
 #------------------------------------------------------------------------------
 ## PV cell params (3-comp)
 #######
-# vip-ngf
-# Old params
-# tunedParamsNoDepol = {
-#     "ori1": {
-#         "Nafcr": {
-#             "gnafbar": 0.03034295244617426
-#         },
-#         "Ra": 101.31773619425941,
-#         "cm": 1.3956569521774433,
-#         "kdrcr": {
-#             "gkdrbar": 0.006289320975996004
-#         },
-#         "pas": {
-#             "e": -54.156581525079,
-#             "g": 5.597266724018472e-06
-#         }
-#     },
-#     "ori2": {
-#         "Nafcr": {
-#             "gnafbar": 0.03600299884268208
-#         },
-#         "Ra": 126.37477623801631,
-#         "cm": 2.255656916826277,
-#         "kdrcr": {
-#             "gkdrbar": 0.011491005215890186
-#         },
-#         "pas": {
-#             "e": -58.61827939019876,
-#             "g": 1.3667505345815849e-05
-#         }
-#     },
-#     "rad1": {
-#         "Nafcr": {
-#             "gnafbar": 0.09603646194911217
-#         },
-#         "Ra": 109.04301401188185,
-#         "cm": 2.86004280843973,
-#         "kdrcr": {
-#             "gkdrbar": 0.014671498027503952
-#         },
-#         "pas": {
-#             "e": -69.94639485920993,
-#             "g": 9.145445600433023e-05
-#         }
-#     },
-#     "rad2": {
-#         "Nafcr": {
-#             "gnafbar": 0.12117486083039207
-#         },
-#         "Ra": 105.33290861536801,
-#         "cm": 1.9340649628033502,
-#         "kdrcr": {
-#             "gkdrbar": 0.011526056544032385
-#         },
-#         "pas": {
-#             "e": -69.1936245704239,
-#             "g": 5.85743110096051e-05
-#         }
-#     },
-#     "soma": {
-#         "IKscr": {
-#             "gKsbar": 0.005537720343812399
-#         },
-#         "Nafcr": {
-#             "gnafbar": 0.00728963139348009
-#         },
-#         "Ra": 116.63071421583007,
-#         "cancr": {
-#             "gcabar": 0.009376817443733148
-#         },
-#         "cm": 1.8914506365455446,
-#         "iCcr": {
-#             "gkcbar": 0.00010852220046602783
-#         },
-#         "kdrcr": {
-#             "gkdrbar": 0.01763104562077111
-#         },
-#         "pas": {
-#             "e": -68.58434697800882,
-#             "g": 4.7411099882163505e-06
-#         }
-#     }
-# }
-# tunedParamsDepol = {
-#     "ori1": {
-#         "Nafcr": {
-#             "gnafbar": 0.04082054365113535
-#         },
-#         "Ra": 112.71219260317795,
-#         "cm": 1.7386428700050718,
-#         "kdrcr": {
-#             "gkdrbar": 0.00795423100785642
-#         },
-#         "pas": {
-#             "e": -62.37229768558754,
-#             "g": 4.798599296528991e-06
-#         }
-#     },
-#     "ori2": {
-#         "Nafcr": {
-#             "gnafbar": 0.025482710904591584
-#         },
-#         "Ra": 134.49107256418512,
-#         "cm": 2.5234892981051105,
-#         "kdrcr": {
-#             "gkdrbar": 0.009008968739102362
-#         },
-#         "pas": {
-#             "e": -43.89233403429573,
-#             "g": 1.1620321558477796e-05
-#         }
-#     },
-#     "rad1": {
-#         "Nafcr": {
-#             "gnafbar": 0.11257336429562881
-#         },
-#         "Ra": 108.58316821600586,
-#         "cm": 2.7101073300878955,
-#         "kdrcr": {
-#             "gkdrbar": 0.01347170651215512
-#         },
-#         "pas": {
-#             "e": -78.27355053698867,
-#             "g": 9.954710083881613e-05
-#         }
-#     },
-#     "rad2": {
-#         "Nafcr": {
-#             "gnafbar": 0.10999874642906309
-#         },
-#         "Ra": 102.72694229979082,
-#         "cm": 1.8347836187385222,
-#         "kdrcr": {
-#             "gkdrbar": 0.010863187066404151
-#         },
-#         "pas": {
-#             "e": -64.03154656423675,
-#             "g": 6.790708995371536e-05
-#         }
-#     },
-#     "soma": {
-#         "IKscr": {
-#             "gKsbar": 0.007200984292049982
-#         },
-#         "Nafcr": {
-#             "gnafbar": 0.007048106046995259
-#         },
-#         "Ra": 83.22022299421958,
-#         "cancr": {
-#             "gcabar": 0.007336735493465247
-#         },
-#         "cm": 1.8665330834930678,
-#         "iCcr": {
-#             "gkcbar": 9.857697126917098e-05
-#         },
-#         "kdrcr": {
-#             "gkdrbar": 0.011213668755840124
-#         },
-#         "pas": {
-#             "e": -55.01023056726649,
-#             "g": 4.96316748340829e-06
-#         }
-#     }
-# }
-tunedParamsNoDepol = {
+
+tunedParamsOrigOkayApril182025 = {
             "ori1": {
-                "Nafcr": {
-                    "gnafbar": 0.029965488148624903
+                "IKscr": {
+                    "gKsbar": 0.0
                 },
-                "Ra": 94.74718339461782,
-                "cm": 1.5176378820670497,
+                "Nafcr": {
+                    "gnafbar": 0.033555847038423514,
+                    "taus": 211.23700071307496
+                },
+                "Ra": 155.83389080881165,
+                "cancr": {
+                    "gcabar": 0.0
+                },
+                "cm": 1.0451442563212505,
+                "iCcr": {
+                    "gkcbar": 0.0
+                },
                 "kdrcr": {
-                    "gkdrbar": 0.006694501704851497
+                    "gkdrbar": 0.007147618107147519,
+                    "valf": -11.981651973315863
                 },
                 "pas": {
-                    "e": -54.2289806909487,
-                    "g": 5.257002446478203e-06
+                    "e": -62.82994891348203,
+                    "g": 4.897617432045613e-05
                 }
             },
             "ori2": {
-                "Nafcr": {
-                    "gnafbar": 0.038223933270564815
+                "IKscr": {
+                    "gKsbar": 0.0
                 },
-                "Ra": 132.73532224173897,
-                "cm": 2.15072603453916,
+                "Nafcr": {
+                    "gnafbar": 0.04305241587483605,
+                    "taus": 211.07999148245977
+                },
+                "Ra": 294.6369875291328,
+                "cancr": {
+                    "gcabar": 0.0
+                },
+                "cm": 0.9823946059056765,
+                "iCcr": {
+                    "gkcbar": 0.0
+                },
                 "kdrcr": {
-                    "gkdrbar": 0.010723434637928886
+                    "gkdrbar": 0.001995905733126572,
+                    "valf": -12.004808794030545
                 },
                 "pas": {
-                    "e": -63.62680070683853,
-                    "g": 1.4278457683822263e-05
+                    "e": -77.3094379486532,
+                    "g": 5.6198048184593156e-05
                 }
             },
             "rad1": {
-                "Nafcr": {
-                    "gnafbar": 0.09609176242393565
+                "IKscr": {
+                    "gKsbar": 0.0
                 },
-                "Ra": 111.19659944041622,
-                "cm": 3.133558790101724,
+                "Nafcr": {
+                    "gnafbar": 0.03617300077643632,
+                    "taus": 211.50728710504103
+                },
+                "Ra": 247.4877878165534,
+                "cancr": {
+                    "gcabar": 0.0
+                },
+                "cm": 0.7979100709977925,
+                "iCcr": {
+                    "gkcbar": 0.0
+                },
                 "kdrcr": {
-                    "gkdrbar": 0.016011530234952602
+                    "gkdrbar": 0.0030197298055870815,
+                    "valf": -14.292786550831941
                 },
                 "pas": {
-                    "e": -72.61032815286347,
-                    "g": 9.211499195069896e-05
+                    "e": -43.18823478422753,
+                    "g": 4.489207710979671e-05
                 }
             },
             "rad2": {
-                "Nafcr": {
-                    "gnafbar": 0.12820290017177124
+                "IKscr": {
+                    "gKsbar": 0.0
                 },
-                "Ra": 111.76668505024826,
-                "cm": 2.064580707959245,
+                "Nafcr": {
+                    "gnafbar": 0.0075547270702817915,
+                    "taus": 212.0558493893737
+                },
+                "Ra": 116.66549376685347,
+                "cancr": {
+                    "gcabar": 0.0
+                },
+                "cm": 1.2054432876541832,
+                "iCcr": {
+                    "gkcbar": 0.0
+                },
                 "kdrcr": {
-                    "gkdrbar": 0.011384794197403585
+                    "gkdrbar": 0.006676979378995631,
+                    "valf": -12.509171736433393
                 },
                 "pas": {
-                    "e": -69.99699610107999,
-                    "g": 6.254791049107461e-05
+                    "e": -52.16771712825026,
+                    "g": 5.663964256510521e-05
                 }
             },
             "soma": {
                 "IKscr": {
-                    "gKsbar": 0.004999550461485062
+                    "gKsbar": 0.0
                 },
                 "Nafcr": {
-                    "gnafbar": 0.00792241108927046
+                    "gnafbar": 0.02864511425205868,
+                    "taus": 213.82290743717624
                 },
-                "Ra": 115.43187325932695,
+                "Ra": 161.86087110491243,
                 "cancr": {
-                    "gcabar": 0.009041149398789038
+                    "gcabar": 0.001272339818569152
                 },
-                "cm": 2.0750330942221358,
+                "cm": 0.19000290878151518,
                 "iCcr": {
-                    "gkcbar": 0.00010672629071301523
+                    "gkcbar": 0.002682049431287712
                 },
                 "kdrcr": {
-                    "gkdrbar": 0.017264335382227255
+                    "gkdrbar": 0.0027081909939373934,
+                    "valf": -12.927293984218267
                 },
                 "pas": {
-                    "e": -66.36873979773242,
-                    "g": 4.332376755670617e-06
+                    "e": -81.53814161804004,
+                    "g": 2.7926922393979932e-05
                 }
             }
         }
 
-tunedParamsDepol = {
+tunedParamsOrigBetterApril182025 = {
             "ori1": {
-                "Nafcr": {
-                    "gnafbar": 0.041000776990370955
+                "IKscr": {
+                    "gKsbar": 0.0
                 },
-                "Ra": 106.06500632460752,
-                "cm": 1.906196295433552,
+                "Nafcr": {
+                    "gnafbar": 0.03620051664945352,
+                    "taus": 209.6402667869049
+                },
+                "Ra": 156.48488866793994,
+                "cancr": {
+                    "gcabar": 0.0
+                },
+                "cm": 0.9862606024212732,
+                "iCcr": {
+                    "gkcbar": 0.0
+                },
                 "kdrcr": {
-                    "gkdrbar": 0.007320736778279362
+                    "gkdrbar": 0.007620749947248059,
+                    "valf": -11.238475569220446
                 },
                 "pas": {
-                    "e": -65.14774283511437,
-                    "g": 5.218995591233591e-06
+                    "e": -68.94520281296299,
+                    "g": 4.9690008977514214e-05
                 }
             },
             "ori2": {
-                "Nafcr": {
-                    "gnafbar": 0.02431242420897496
+                "IKscr": {
+                    "gKsbar": 0.0
                 },
-                "Ra": 141.65175546317616,
-                "cm": 2.5636753366991925,
+                "Nafcr": {
+                    "gnafbar": 0.04637756634393874,
+                    "taus": 195.75000066315047
+                },
+                "Ra": 149.16544292366643,
+                "cancr": {
+                    "gcabar": 0.0
+                },
+                "cm": 0.894380975574114,
+                "iCcr": {
+                    "gkcbar": 0.0
+                },
                 "kdrcr": {
-                    "gkdrbar": 0.009650373554419302
+                    "gkdrbar": 0.001989049667110744,
+                    "valf": -11.991581787070174
                 },
                 "pas": {
-                    "e": -47.666777104659324,
-                    "g": 1.1238688624912248e-05
+                    "e": -82.55328942703039,
+                    "g": 5.9458077693878924e-05
                 }
             },
             "rad1": {
-                "Nafcr": {
-                    "gnafbar": 0.11208489961757948
+                "IKscr": {
+                    "gKsbar": 0.0
                 },
-                "Ra": 118.45657608813895,
-                "cm": 2.639102978751162,
+                "Nafcr": {
+                    "gnafbar": 0.0383372229380183,
+                    "taus": 200.03659251492624
+                },
+                "Ra": 139.1751560040922,
+                "cancr": {
+                    "gcabar": 0.0
+                },
+                "cm": 0.7800140087280175,
+                "iCcr": {
+                    "gkcbar": 0.0
+                },
                 "kdrcr": {
-                    "gkdrbar": 0.014750759942096462
+                    "gkdrbar": 0.0027802038807920797,
+                    "valf": -15.416421652927266
                 },
                 "pas": {
-                    "e": -84.05610526920424,
-                    "g": 0.00010460312501858911
+                    "e": -39.834587008644164,
+                    "g": 4.512702470327495e-05
                 }
             },
             "rad2": {
-                "Nafcr": {
-                    "gnafbar": 0.11932892724494704
+                "IKscr": {
+                    "gKsbar": 0.0
                 },
-                "Ra": 111.97011485002753,
-                "cm": 1.7829463724726895,
+                "Nafcr": {
+                    "gnafbar": 0.007115974529340965,
+                    "taus": 213.42669283460768
+                },
+                "Ra": 141.7078212258808,
+                "cancr": {
+                    "gcabar": 0.0
+                },
+                "cm": 1.207283724387104,
+                "iCcr": {
+                    "gkcbar": 0.0
+                },
                 "kdrcr": {
-                    "gkdrbar": 0.011774900951697054
+                    "gkdrbar": 0.006604210608652641,
+                    "valf": -13.073161566111239
                 },
                 "pas": {
-                    "e": -58.492141375012764,
-                    "g": 7.0750758261592e-05
+                    "e": -53.397303942965394,
+                    "g": 5.481073970515329e-05
                 }
             },
             "soma": {
                 "IKscr": {
-                    "gKsbar": 0.006764783988271673
+                    "gKsbar": 0.0
                 },
                 "Nafcr": {
-                    "gnafbar": 0.007049291668535117
+                    "gnafbar": 0.029258105672312417,
+                    "taus": 208.46441586035667
                 },
-                "Ra": 84.8227052914339,
+                "Ra": 135.11537924391862,
                 "cancr": {
-                    "gcabar": 0.007741530629330753
+                    "gcabar": 0.001200673446931951
                 },
-                "cm": 1.8675985494287146,
+                "cm": 0.1762111618060807,
                 "iCcr": {
-                    "gkcbar": 9.691139847500207e-05
+                    "gkcbar": 0.002739309869536659
                 },
                 "kdrcr": {
-                    "gkdrbar": 0.010985836518386883
+                    "gkdrbar": 0.002731219341601073,
+                    "valf": -11.792996540097391
                 },
                 "pas": {
-                    "e": -51.29333525759825,
-                    "g": 5.274328478094304e-06
+                    "e": -74.63132881332893,
+                    "g": 2.98701167732318e-05
                 }
             }
         }
 
-if cfg.depolBlockModel:
-    tunedParams=tunedParamsDepol
-    valf = -29
-    print("Depol block model")
-else:
-    tunedParams=tunedParamsNoDepol
-    valf = -13
-    print("No depol block model")
+tunedParams = tunedParamsOrigBetterApril182025
 
 cellRule = netParams.importCellParams(label='FoxP2', conds={'cellType': 'FoxP2', 'cellModel': 'HH_reduced'},
                                       fileName=cfg.hocFile, cellName='FoxP2', importSynMechs = True)
 
-
 cellRule['secs']['soma']['mechs']['Nafcr']['gnafbar'] = tunedParams['soma']['Nafcr']['gnafbar']
+cellRule['secs']['soma']['mechs']['Nafcr']['taus'] = tunedParams['soma']['Nafcr']['taus']
 cellRule['secs']['soma']['mechs']['kdrcr']['gkdrbar'] = tunedParams['soma']['kdrcr']['gkdrbar']
-cellRule['secs']['soma']['mechs']['kdrcr']['valf'] = valf
+cellRule['secs']['soma']['mechs']['kdrcr']['valf'] = tunedParams['soma']['kdrcr']['valf']
 cellRule['secs']['soma']['mechs']['IKscr']['gKsbar'] = tunedParams['soma']['IKscr']['gKsbar']
 cellRule['secs']['soma']['mechs']['iCcr']['gkcbar'] = tunedParams['soma']['iCcr']['gkcbar']
 cellRule['secs']['soma']['mechs']['cancr']['gcabar'] = tunedParams['soma']['cancr']['gcabar']
@@ -395,8 +317,12 @@ cellRule['secs']['soma']['mechs']['pas']['g'] = tunedParams['soma']['pas']['g']
 
 for sec in ['rad1', 'rad2', 'ori1', 'ori2']:
     cellRule['secs'][sec]['mechs']['Nafcr']['gnafbar'] = tunedParams[sec]['Nafcr']['gnafbar']
+    cellRule['secs'][sec]['mechs']['Nafcr']['taus'] = tunedParams[sec]['Nafcr']['taus']
     cellRule['secs'][sec]['mechs']['kdrcr']['gkdrbar'] = tunedParams[sec]['kdrcr']['gkdrbar']
-    cellRule['secs'][sec]['mechs']['kdrcr']['valf'] = valf
+    cellRule['secs'][sec]['mechs']['kdrcr']['valf'] = tunedParams[sec]['kdrcr']['valf']
+    cellRule['secs'][sec]['mechs']['IKscr']['gKsbar'] = tunedParams[sec]['IKscr']['gKsbar']
+    cellRule['secs'][sec]['mechs']['iCcr']['gkcbar'] = tunedParams[sec]['iCcr']['gkcbar']
+    cellRule['secs'][sec]['mechs']['cancr']['gcabar'] = tunedParams[sec]['cancr']['gcabar']
     cellRule['secs'][sec]['mechs']['pas']['e'] = tunedParams[sec]['pas']['e']
     cellRule['secs'][sec]['geom']['cm'] = tunedParams[sec]['cm']
     cellRule['secs'][sec]['geom']['Ra'] = tunedParams[sec]['Ra']

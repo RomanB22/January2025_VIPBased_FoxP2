@@ -173,14 +173,13 @@ import pandas as pd
 df = pd.DataFrame.from_dict(peaksDict)
 dfDistance = pd.DataFrame.from_dict(baselineDistanceDict)
 
-print(df)
-
 color = {'2': 'C0','3': 'C1','8': 'C2','14': 'C4','20': 'C5'}
 
 for i in df['InVivo'].index:
     percentagePT5B = []
     returnTime = []
     for key, value in df['InVivo'][i].items():
+        print(key, value)
         percentagePT5B.append(float(key))
         returnTime.append(float(value))
     percentagePT5B = np.array(percentagePT5B).flatten()

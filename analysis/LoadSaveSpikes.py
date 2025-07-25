@@ -16,6 +16,8 @@ for file in files:
     with open(file, 'r') as f:
         data = json.load(f)
 
+    [print(i) for i in data['simConfig']]
+    quit()
     NumFoxP2 = data['simConfig']['numTrials']
     NumIncreasing = data['simConfig']['IncreConn']
     NumDecreasing = data['simConfig']['DecreConn']

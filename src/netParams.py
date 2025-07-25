@@ -14,185 +14,271 @@ netParams.version = 1
 ###############################################################################
 ## Cell types
 ###############################################################################
-tunedParamsNoDepol = {
+tunedParamsOrigOkayApril182025 = {
             "ori1": {
-                "Nafcr": {
-                    "gnafbar": 0.029965488148624903
+                "IKscr": {
+                    "gKsbar": 0.0
                 },
-                "Ra": 94.74718339461782,
-                "cm": 1.5176378820670497,
+                "Nafcr": {
+                    "gnafbar": 0.033555847038423514,
+                    "taus": 211.23700071307496
+                },
+                "Ra": 155.83389080881165,
+                "cancr": {
+                    "gcabar": 0.0
+                },
+                "cm": 1.0451442563212505,
+                "iCcr": {
+                    "gkcbar": 0.0
+                },
                 "kdrcr": {
-                    "gkdrbar": 0.006694501704851497
+                    "gkdrbar": 0.007147618107147519,
+                    "valf": -11.981651973315863
                 },
                 "pas": {
-                    "e": -54.2289806909487,
-                    "g": 5.257002446478203e-06
+                    "e": -62.82994891348203,
+                    "g": 4.897617432045613e-05
                 }
             },
             "ori2": {
-                "Nafcr": {
-                    "gnafbar": 0.038223933270564815
+                "IKscr": {
+                    "gKsbar": 0.0
                 },
-                "Ra": 132.73532224173897,
-                "cm": 2.15072603453916,
+                "Nafcr": {
+                    "gnafbar": 0.04305241587483605,
+                    "taus": 211.07999148245977
+                },
+                "Ra": 294.6369875291328,
+                "cancr": {
+                    "gcabar": 0.0
+                },
+                "cm": 0.9823946059056765,
+                "iCcr": {
+                    "gkcbar": 0.0
+                },
                 "kdrcr": {
-                    "gkdrbar": 0.010723434637928886
+                    "gkdrbar": 0.001995905733126572,
+                    "valf": -12.004808794030545
                 },
                 "pas": {
-                    "e": -63.62680070683853,
-                    "g": 1.4278457683822263e-05
+                    "e": -77.3094379486532,
+                    "g": 5.6198048184593156e-05
                 }
             },
             "rad1": {
-                "Nafcr": {
-                    "gnafbar": 0.09609176242393565
+                "IKscr": {
+                    "gKsbar": 0.0
                 },
-                "Ra": 111.19659944041622,
-                "cm": 3.133558790101724,
+                "Nafcr": {
+                    "gnafbar": 0.03617300077643632,
+                    "taus": 211.50728710504103
+                },
+                "Ra": 247.4877878165534,
+                "cancr": {
+                    "gcabar": 0.0
+                },
+                "cm": 0.7979100709977925,
+                "iCcr": {
+                    "gkcbar": 0.0
+                },
                 "kdrcr": {
-                    "gkdrbar": 0.016011530234952602
+                    "gkdrbar": 0.0030197298055870815,
+                    "valf": -14.292786550831941
                 },
                 "pas": {
-                    "e": -72.61032815286347,
-                    "g": 9.211499195069896e-05
+                    "e": -43.18823478422753,
+                    "g": 4.489207710979671e-05
                 }
             },
             "rad2": {
-                "Nafcr": {
-                    "gnafbar": 0.12820290017177124
+                "IKscr": {
+                    "gKsbar": 0.0
                 },
-                "Ra": 111.76668505024826,
-                "cm": 2.064580707959245,
+                "Nafcr": {
+                    "gnafbar": 0.0075547270702817915,
+                    "taus": 212.0558493893737
+                },
+                "Ra": 116.66549376685347,
+                "cancr": {
+                    "gcabar": 0.0
+                },
+                "cm": 1.2054432876541832,
+                "iCcr": {
+                    "gkcbar": 0.0
+                },
                 "kdrcr": {
-                    "gkdrbar": 0.011384794197403585
+                    "gkdrbar": 0.006676979378995631,
+                    "valf": -12.509171736433393
                 },
                 "pas": {
-                    "e": -69.99699610107999,
-                    "g": 6.254791049107461e-05
+                    "e": -52.16771712825026,
+                    "g": 5.663964256510521e-05
                 }
             },
             "soma": {
                 "IKscr": {
-                    "gKsbar": 0.004999550461485062
+                    "gKsbar": 0.0
                 },
                 "Nafcr": {
-                    "gnafbar": 0.00792241108927046
+                    "gnafbar": 0.02864511425205868,
+                    "taus": 213.82290743717624
                 },
-                "Ra": 115.43187325932695,
+                "Ra": 161.86087110491243,
                 "cancr": {
-                    "gcabar": 0.009041149398789038
+                    "gcabar": 0.001272339818569152
                 },
-                "cm": 2.0750330942221358,
+                "cm": 0.19000290878151518,
                 "iCcr": {
-                    "gkcbar": 0.00010672629071301523
+                    "gkcbar": 0.002682049431287712
                 },
                 "kdrcr": {
-                    "gkdrbar": 0.017264335382227255
+                    "gkdrbar": 0.0027081909939373934,
+                    "valf": -12.927293984218267
                 },
                 "pas": {
-                    "e": -66.36873979773242,
-                    "g": 4.332376755670617e-06
-                }
-            }
-        }
-tunedParamsDepol = {
-            "ori1": {
-                "Nafcr": {
-                    "gnafbar": 0.041000776990370955
-                },
-                "Ra": 106.06500632460752,
-                "cm": 1.906196295433552,
-                "kdrcr": {
-                    "gkdrbar": 0.007320736778279362
-                },
-                "pas": {
-                    "e": -65.14774283511437,
-                    "g": 5.218995591233591e-06
-                }
-            },
-            "ori2": {
-                "Nafcr": {
-                    "gnafbar": 0.02431242420897496
-                },
-                "Ra": 141.65175546317616,
-                "cm": 2.5636753366991925,
-                "kdrcr": {
-                    "gkdrbar": 0.009650373554419302
-                },
-                "pas": {
-                    "e": -47.666777104659324,
-                    "g": 1.1238688624912248e-05
-                }
-            },
-            "rad1": {
-                "Nafcr": {
-                    "gnafbar": 0.11208489961757948
-                },
-                "Ra": 118.45657608813895,
-                "cm": 2.639102978751162,
-                "kdrcr": {
-                    "gkdrbar": 0.014750759942096462
-                },
-                "pas": {
-                    "e": -84.05610526920424,
-                    "g": 0.00010460312501858911
-                }
-            },
-            "rad2": {
-                "Nafcr": {
-                    "gnafbar": 0.11932892724494704
-                },
-                "Ra": 111.97011485002753,
-                "cm": 1.7829463724726895,
-                "kdrcr": {
-                    "gkdrbar": 0.011774900951697054
-                },
-                "pas": {
-                    "e": -58.492141375012764,
-                    "g": 7.0750758261592e-05
-                }
-            },
-            "soma": {
-                "IKscr": {
-                    "gKsbar": 0.006764783988271673
-                },
-                "Nafcr": {
-                    "gnafbar": 0.007049291668535117
-                },
-                "Ra": 84.8227052914339,
-                "cancr": {
-                    "gcabar": 0.007741530629330753
-                },
-                "cm": 1.8675985494287146,
-                "iCcr": {
-                    "gkcbar": 9.691139847500207e-05
-                },
-                "kdrcr": {
-                    "gkdrbar": 0.010985836518386883
-                },
-                "pas": {
-                    "e": -51.29333525759825,
-                    "g": 5.274328478094304e-06
+                    "e": -81.53814161804004,
+                    "g": 2.7926922393979932e-05
                 }
             }
         }
 
-if cfg.depolBlockModel=='True':
-    tunedParams=tunedParamsDepol
-    valf = -29
-    print("Depol block model")
-else:
-    tunedParams=tunedParamsNoDepol
-    valf = -13
-    print("No depol block model")
+tunedParamsOrigBetterApril182025 = {
+            "ori1": {
+                "IKscr": {
+                    "gKsbar": 0.0
+                },
+                "Nafcr": {
+                    "gnafbar": 0.03620051664945352,
+                    "taus": 209.6402667869049
+                },
+                "Ra": 156.48488866793994,
+                "cancr": {
+                    "gcabar": 0.0
+                },
+                "cm": 0.9862606024212732,
+                "iCcr": {
+                    "gkcbar": 0.0
+                },
+                "kdrcr": {
+                    "gkdrbar": 0.007620749947248059,
+                    "valf": -11.238475569220446
+                },
+                "pas": {
+                    "e": -68.94520281296299,
+                    "g": 4.9690008977514214e-05
+                }
+            },
+            "ori2": {
+                "IKscr": {
+                    "gKsbar": 0.0
+                },
+                "Nafcr": {
+                    "gnafbar": 0.04637756634393874,
+                    "taus": 195.75000066315047
+                },
+                "Ra": 149.16544292366643,
+                "cancr": {
+                    "gcabar": 0.0
+                },
+                "cm": 0.894380975574114,
+                "iCcr": {
+                    "gkcbar": 0.0
+                },
+                "kdrcr": {
+                    "gkdrbar": 0.001989049667110744,
+                    "valf": -11.991581787070174
+                },
+                "pas": {
+                    "e": -82.55328942703039,
+                    "g": 5.9458077693878924e-05
+                }
+            },
+            "rad1": {
+                "IKscr": {
+                    "gKsbar": 0.0
+                },
+                "Nafcr": {
+                    "gnafbar": 0.0383372229380183,
+                    "taus": 200.03659251492624
+                },
+                "Ra": 139.1751560040922,
+                "cancr": {
+                    "gcabar": 0.0
+                },
+                "cm": 0.7800140087280175,
+                "iCcr": {
+                    "gkcbar": 0.0
+                },
+                "kdrcr": {
+                    "gkdrbar": 0.0027802038807920797,
+                    "valf": -15.416421652927266
+                },
+                "pas": {
+                    "e": -39.834587008644164,
+                    "g": 4.512702470327495e-05
+                }
+            },
+            "rad2": {
+                "IKscr": {
+                    "gKsbar": 0.0
+                },
+                "Nafcr": {
+                    "gnafbar": 0.007115974529340965,
+                    "taus": 213.42669283460768
+                },
+                "Ra": 141.7078212258808,
+                "cancr": {
+                    "gcabar": 0.0
+                },
+                "cm": 1.207283724387104,
+                "iCcr": {
+                    "gkcbar": 0.0
+                },
+                "kdrcr": {
+                    "gkdrbar": 0.006604210608652641,
+                    "valf": -13.073161566111239
+                },
+                "pas": {
+                    "e": -53.397303942965394,
+                    "g": 5.481073970515329e-05
+                }
+            },
+            "soma": {
+                "IKscr": {
+                    "gKsbar": 0.0
+                },
+                "Nafcr": {
+                    "gnafbar": 0.029258105672312417,
+                    "taus": 208.46441586035667
+                },
+                "Ra": 135.11537924391862,
+                "cancr": {
+                    "gcabar": 0.001200673446931951
+                },
+                "cm": 0.1762111618060807,
+                "iCcr": {
+                    "gkcbar": 0.002739309869536659
+                },
+                "kdrcr": {
+                    "gkdrbar": 0.002731219341601073,
+                    "valf": -11.792996540097391
+                },
+                "pas": {
+                    "e": -74.63132881332893,
+                    "g": 2.98701167732318e-05
+                }
+            }
+        }
+
+tunedParams = tunedParamsOrigBetterApril182025
 
 cellRule = netParams.importCellParams(label='FoxP2', conds={'cellType': 'FoxP2', 'cellModel': 'HH_reduced'},
                                       fileName=cfg.hocFile, cellName='FoxP2', importSynMechs = True)
 
-
 cellRule['secs']['soma']['mechs']['Nafcr']['gnafbar'] = tunedParams['soma']['Nafcr']['gnafbar']
+cellRule['secs']['soma']['mechs']['Nafcr']['taus'] = tunedParams['soma']['Nafcr']['taus']
 cellRule['secs']['soma']['mechs']['kdrcr']['gkdrbar'] = tunedParams['soma']['kdrcr']['gkdrbar']
-cellRule['secs']['soma']['mechs']['kdrcr']['valf'] = valf
+cellRule['secs']['soma']['mechs']['kdrcr']['valf'] = tunedParams['soma']['kdrcr']['valf']
 cellRule['secs']['soma']['mechs']['IKscr']['gKsbar'] = tunedParams['soma']['IKscr']['gKsbar']
 cellRule['secs']['soma']['mechs']['iCcr']['gkcbar'] = tunedParams['soma']['iCcr']['gkcbar']
 cellRule['secs']['soma']['mechs']['cancr']['gcabar'] = tunedParams['soma']['cancr']['gcabar']
@@ -203,14 +289,22 @@ cellRule['secs']['soma']['mechs']['pas']['g'] = tunedParams['soma']['pas']['g']
 
 for sec in ['rad1', 'rad2', 'ori1', 'ori2']:
     cellRule['secs'][sec]['mechs']['Nafcr']['gnafbar'] = tunedParams[sec]['Nafcr']['gnafbar']
+    cellRule['secs'][sec]['mechs']['Nafcr']['taus'] = tunedParams[sec]['Nafcr']['taus']
     cellRule['secs'][sec]['mechs']['kdrcr']['gkdrbar'] = tunedParams[sec]['kdrcr']['gkdrbar']
-    cellRule['secs'][sec]['mechs']['kdrcr']['valf'] = valf
+    cellRule['secs'][sec]['mechs']['kdrcr']['valf'] = tunedParams[sec]['kdrcr']['valf']
+    cellRule['secs'][sec]['mechs']['IKscr']['gKsbar'] = tunedParams[sec]['IKscr']['gKsbar']
+    cellRule['secs'][sec]['mechs']['iCcr']['gkcbar'] = tunedParams[sec]['iCcr']['gkcbar']
+    cellRule['secs'][sec]['mechs']['cancr']['gcabar'] = tunedParams[sec]['cancr']['gcabar']
     cellRule['secs'][sec]['mechs']['pas']['e'] = tunedParams[sec]['pas']['e']
     cellRule['secs'][sec]['geom']['cm'] = tunedParams[sec]['cm']
     cellRule['secs'][sec]['geom']['Ra'] = tunedParams[sec]['Ra']
     cellRule['secs'][sec]['mechs']['pas']['g'] = tunedParams[sec]['pas']['g']
 
 cellRule['secLists']['spiny'] = ['rad1', 'rad2', 'ori1', 'ori2']
+
+if cfg.blockNa=='True':
+    for sec in ['soma', 'rad1', 'rad2', 'ori1', 'ori2']:
+        cellRule['secs'][sec]['mechs']['Nafcr']['gnafbar'] = 0
 
 #------------------------------------------------------------------------------
 # Synaptic mechanism parameters
@@ -232,7 +326,10 @@ def BagOfSpikeTimes(Results, RandomRealization='Random_0', Condition='InVivo_Go'
         for cell in Results[Condition][trial].keys():
             if cell.startswith('Cell_'):
                 ID = Results[Condition][trial][cell]['ID']
-                spkTimes = Results[Condition][trial][cell]['SimSpks'][RandomRealization]
+                try:
+                    spkTimes = Results[Condition][trial][cell]['SimSpks'][RandomRealization]
+                except:
+                    continue
                 if ID=='Increasing':
                     sampledNeuronsIncre[ID+'_'+cell+'_'+trial]=spkTimes
                 elif ID=='Decreasing':
@@ -255,6 +352,22 @@ def SampleSpikeTrains(SimulatedSpikes, numNeurons, numTrials):
 
     return sampledKeys, spikeTimes
 
+def ScaleSpikeTimingAfterMovement(spikeTimes, factorWidth, movementTime):
+    spikeTimesTrial = []
+    for i in spikeTimes:
+        i = np.array(i)
+        premov = i[i<=movementTime]
+        postmov = i[i>movementTime]
+        try:
+            diffpost = postmov-postmov[0]
+            scaledpostmov = postmov[0] + factorWidth*diffpost
+        except:
+            scaledpostmov = postmov
+
+        spikeTimesTrial.append(np.ndarray.tolist(np.hstack((premov, scaledpostmov))))
+
+    return spikeTimesTrial
+
 # In order to update the previous value after the cfg.update_cfg()
 cfg.IncreConn = cfg.IncDec[0]
 cfg.DecreConn = cfg.IncDec[1]
@@ -262,32 +375,45 @@ cfg.DecreConn = cfg.IncDec[1]
 if cfg.addVecStim:
     ####
     # Load the spike trains
-    if cfg.GoNoGo == 'Go':
-        with open('cells/Results_Go.pkl', 'rb') as results:
-            Results = pickle.load(results)
-    elif cfg.GoNoGo == 'NoGo':
-        with open('cells/Results_NoGo.pkl', 'rb') as results:
+    if str(cfg.GoNoGo) == 'Go':
+        if cfg.Fitting == 'True':
+            if cfg.ConstantArea == 'True':
+                with open('cells/SimSpikes/ResultsNewJuly2025_%s_%1.2f_%1.2f_%s_ConstantArea.pkl' % (cfg.GoNoGo, cfg.factorAmp, cfg.factorWidth, cfg.Fitting), 'rb') as results:
+                    Results = pickle.load(results)
+            else:
+                with open('cells/SimSpikes/ResultsNewJuly2025_%s_%1.2f_%1.2f_%s.pkl' % (cfg.GoNoGo, cfg.factorAmp, cfg.factorWidth, cfg.Fitting), 'rb') as results:
+                    Results = pickle.load(results)
+        else:
+            with open('cells/SimSpikes/ResultsNewJuly2025_%s_%1.2f_%1.2f_%s.pkl' % (cfg.GoNoGo, cfg.factorAmp, 1.0, cfg.Fitting), 'rb') as results:
+                Results = pickle.load(results)
+    elif str(cfg.GoNoGo) == 'NoGo':
+        with open('cells/SimSpikes/Results_NoGo.pkl', 'rb') as results:
             Results = pickle.load(results)
 
     AllNeuronsIncre, AllNeuronsDecre, AllNeuronsNotChanging = BagOfSpikeTimes(Results, Condition=cfg.Condition)
 
     sampledNeuronsIncre, spikeTimesIncre = SampleSpikeTrains(AllNeuronsIncre, numNeurons=cfg.IncreConn,
                                                              numTrials=cfg.numTrials)
+
     sampledNeuronsDecre, spikeTimesDecre = SampleSpikeTrains(AllNeuronsDecre, numNeurons=cfg.DecreConn,
                                                              numTrials=cfg.numTrials)
+
     sampledNeuronsNotChanging, spikeTimesNotChanging = SampleSpikeTrains(AllNeuronsNotChanging,
                                                                          numNeurons=cfg.NotChangingConn,
                                                                          numTrials=cfg.numTrials)
-    # # We can save the sampled neurons if we want to. If running batch will overwrite
-    # import json
-    # with open(cfg.saveFolder+cfg.simLabel+f"/Increasing_{cfg.Condition}_{cfg.IncreConn}_{cfg.DecreConn}", 'w') as file:
-    #     json.dump(sampledNeuronsIncre, file, indent=4)
-    # # We can save the sampled neurons if we want to
-    # with open(cfg.saveFolder+cfg.simLabel+f"/Decreasing_{cfg.Condition}_{cfg.IncreConn}_{cfg.DecreConn}", 'w') as file:
-    #     json.dump(sampledNeuronsDecre, file, indent=4)
-    # # We can save the sampled neurons if we want to
-    # with open(cfg.saveFolder+cfg.simLabel+f"/NotChanging_{cfg.Condition}_{cfg.IncreConn}_{cfg.DecreConn}", 'w') as file:
-    #     json.dump(sampledNeuronsNotChanging, file, indent=4)
+
+    if cfg.TwoStims == 'True':
+        AllNeuronsIncre2, dummy, dummy = BagOfSpikeTimes(Results, Condition=cfg.Condition)
+        sampledNeuronsIncre2, spikeTimesIncre2 = SampleSpikeTrains(AllNeuronsIncre2, numNeurons=cfg.IncreConn,
+                                                                 numTrials=cfg.numTrials)
+        # Second movement is just the part of the inputs after the movement part
+        for i in range(len(spikeTimesIncre2)):
+            spikeAux = []
+            for j in spikeTimesIncre2[i]:
+                array = np.array(j, dtype=float)
+                postmov = np.ndarray.tolist(array[array>=cfg.preStim])
+                spikeAux.append(postmov)
+            spikeTimesIncre2[i] = spikeAux
 
     netParams.popParams['FoxP2'] = {'cellModel': 'HH_reduced', 'cellType': 'FoxP2', 'numCells': cfg.numTrials}
 
@@ -295,11 +421,23 @@ if cfg.addVecStim:
         spikeTimesIncreTrial = spikeTimesIncre[Trial]
         spikeTimesDecreTrial = spikeTimesDecre[Trial]
         spikeTimesNotChangingTrial = spikeTimesNotChanging[Trial]
+
+        if cfg.TwoStims == 'True':
+            spikeTimesIncreTrial2 = spikeTimesIncre2[Trial]
+            spikeTimesIncreTrial2 = ScaleSpikeTimingAfterMovement(spikeTimesIncreTrial2, factorWidth=cfg.factorWidth,
+                                                                 movementTime=cfg.preStim)
+        ### Scale postmovement spikes for CSN_inc population (carrier of the movement signal)
+        spikeTimesIncreTrial = ScaleSpikeTimingAfterMovement(spikeTimesIncreTrial, factorWidth=cfg.factorWidth, movementTime=cfg.preStim)
+
         ### Define Populations
         if cfg.IncreConn > 0:
             netParams.popParams[f'Increasing_{Trial}'] = {'cellModel': 'VecStim',
                                                           'numCells': len(spikeTimesIncreTrial),
                                                           'spkTimes': spikeTimesIncreTrial}
+            if cfg.TwoStims == 'True':
+                netParams.popParams[f'Increasing2_{Trial}'] = {'cellModel': 'VecStim',
+                                                              'numCells': len(spikeTimesIncreTrial2),
+                                                              'spkTimes': spikeTimesIncreTrial2}
         if cfg.DecreConn > 0:
             netParams.popParams[f'Decreasing_{Trial}'] = {'cellModel': 'VecStim',
                                                           'numCells': len(spikeTimesDecreTrial),
@@ -308,8 +446,9 @@ if cfg.addVecStim:
             netParams.popParams[f'NotChanging_{Trial}'] = {'cellModel': 'VecStim',
                                                            'numCells': len(spikeTimesNotChangingTrial),
                                                            'spkTimes': spikeTimesNotChangingTrial}
+
         Weights = {'Increasing': cfg.AMPANMDAWeightsIncre, 'Decreasing': cfg.AMPANMDAWeightsDecre,
-                   'NotChanging': cfg.AMPANMDAWeightsNotChanging}
+                   'NotChanging': cfg.AMPANMDAWeightsNotChanging, 'Increasing2': cfg.AMPANMDAWeightsIncre,}
 
         # ------------------------------------------------------------------------------
         # NetStim inputs
@@ -395,6 +534,9 @@ if cfg.addVecStim:
     PT5Bpops = [i for i in netParams.popParams.keys() if i != 'FoxP2']
 
     for InputPops in PT5Bpops:
+        delay = cfg.delay
+        if InputPops.split('_')[0]=='Increasing2': delay += cfg.SecondStimDelay
+
         connection = f'{InputPops}->FoxP2_%d' % int(InputPops.split('_')[1])
         numPreSyn = netParams.popParams[InputPops]['numCells']
         preSynSoma = np.sort(random.sample([i for i in range(numPreSyn)], int(cfg.somaProb * numPreSyn)))
@@ -408,7 +550,7 @@ if cfg.addVecStim:
             'sec': 'soma',
             'synsPerConn': cfg.synsPerConn,
             'connList': [[i, int(InputPops.split('_')[1])] for i in preSynSoma],
-            'delay': cfg.delay,
+            'delay': delay,
             'loc': 0.5,
             'synMech': cfg.ESynMech}
 
@@ -419,10 +561,9 @@ if cfg.addVecStim:
             'synsPerConn': cfg.synsPerConn,
             'sec': secList,
             'connList': [[i, int(InputPops.split('_')[1])] for i in preSynDend],
-            'delay': cfg.delay,
+            'delay': delay,
             'loc': 'uniform(0,0.8)',
             'synMech': cfg.ESynMech}
-
 else:
     netParams.popParams['FoxP2'] = {'cellModel': 'HH_reduced', 'cellType': 'FoxP2', 'numCells': 1}
 #------------------------------------------------------------------------------

@@ -66,7 +66,7 @@ UNITSOFF
 PROCEDURE rate(v (mV)) {LOCAL va, vb, vc, vd
 	
 	
-	va = v + 34
+	va = v + 34 :34
 	vb = v + 65
 	vd = v + 63.6
 	

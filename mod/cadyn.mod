@@ -18,9 +18,9 @@ UNITS {
 }
 
 PARAMETER {
-       depth	= .1	(um)		
-        taur =  200 (ms)	: rate of calcium removal for stress conditions
-	cainf	= 50e-6(mM)	:changed oct2
+       depth	= .1	(um)
+        taur =  100 (ms)	: rate of calcium removal for stress conditions 200
+	cainf	= 5e-5(mM)	:changed oct2    5e-5
 	cai		(mM)
 }
 
