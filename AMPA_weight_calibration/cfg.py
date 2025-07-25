@@ -49,7 +49,7 @@ cfg.ESynMech = 'AMPA'
 cfg.delay = 3.8
 cfg.NetStimWeight = 0.00025 # 0.004 for 200 pA of EPSC. It generates around 20 mV of EPSP
 cfg.NetStimDelay = cfg.delay
-cfg.synsPerConn = 1
+cfg.synsPerConn = 2
 # Membrane time constant of model is actually larger than experiment, thus for longer synapses,
 # membrane will decay slower to resting membrane potential, which is a problem
 # We compensate this effect by changing the taus to make synapses faster. Original values cfg.tau1 = 3
